@@ -5,7 +5,7 @@
 [![PyPi](https://img.shields.io/pypi/dm/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
 
 
-[简体中文文档](https://github.com/PlexPt/chatgpt-java/blob/main/README_zh.md).
+[简体中文](https://github.com/PlexPt/chatgpt-java/blob/main/LICENSE).
 
 Reverse Engineered ChatGPT by OpenAI. Extensible for chatbots etc.
 Thanks to [revChatGPT](https://github.com/acheong08/ChatGPT).
