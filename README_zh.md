@@ -39,16 +39,21 @@ implementation group: 'com.github.plexpt', name: 'toolkit', version: '2022.7.0'
 https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 
 
+### 也可以控制台直接使用
+1. 下载
+2. 编辑 config.json 里的sessionToken
+3. 运行 run.bat
+
 # Awesome ChatGPT
 [My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
 
 If you have a cool project you want added to the list, open an issue.
 
 # Disclaimers
-This is not an official OpenAI product. This is a personal project and is not affiliated with OpenAI in any way. Don't sue me
+这不是官方的 OpenAI 产品。这是一个个人项目，与 OpenAI 没有任何关联。
 
 ### This is a library and not intended for direct CLI use
-The CLI functionality is for demo and testing only. Captcha is not supported (For unclean IP addresses)
+CLI 功能仅用于演示和测试。不支持验证码（对于不干净的 IP 地址）
 
 ### CLI use
 [@rawandahmad698](https://github.com/rawandahmad698) has a much better CLI tool at

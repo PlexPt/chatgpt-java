@@ -41,6 +41,12 @@ then
 https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 
 
+### CLI use
+1. download from release
+2. edit config.json
+3. run
+
+
 # Awesome ChatGPT
 [My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
 
