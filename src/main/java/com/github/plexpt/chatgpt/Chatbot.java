@@ -39,6 +39,13 @@ public class Chatbot {
         }
     }
 
+    public Chatbot(String sessionToken) {
+        Map<String, String> config = new HashMap<>();
+        config.put("session_token", sessionToken);
+        this.parentId = UUID.randomUUID().toString();
+        refreshSession();
+    }
+
     // Resets the conversation ID and parent ID
     public void resetChat() {
         this.conversationId = null;
@@ -290,6 +297,10 @@ public class Chatbot {
         } else {
             throw new RuntimeException("Output must be either 'text' or 'stream'");
         }
+    }
+
+    public Map<String, Object> getChatResponse(String prompt) {
+        return this.getChatResponse(prompt, "text");
     }
 
 
