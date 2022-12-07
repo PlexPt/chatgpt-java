@@ -38,6 +38,10 @@ implementation group: 'com.github.plexpt', name: 'toolkit', version: '2022.7.0'
 ### sessionToken获取
 https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 
+注册教程
+
+https://juejin.cn/post/7173447848292253704
+
 
 ### 也可以控制台直接使用
 1. 下载

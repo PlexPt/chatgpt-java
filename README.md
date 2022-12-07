@@ -8,6 +8,7 @@
 [简体中文文档](https://github.com/PlexPt/chatgpt-java/blob/main/README_zh.md).
 
 Reverse Engineered ChatGPT by OpenAI. Extensible for chatbots etc.
+
 Thanks to [revChatGPT](https://github.com/acheong08/ChatGPT).
 
 
