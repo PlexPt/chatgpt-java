@@ -70,7 +70,6 @@ public class Chatbot {
     }
 
 
-
     Map<String, Object> getChatStream(Map<String, Object> data) {
         String url = "https://chat.openai.com/backend-api/conversation";
 
@@ -80,29 +79,41 @@ public class Chatbot {
                 .execute()
                 .body();
 
-//        String responseBody = response.body().toString();
+        String message = "";
+        Map<String, Object> chatData = new HashMap<>();
+        for (String s : responseBody.split("\n")) {
+            if ((s == null) || "".equals(s)) {
+                continue;
+            }
+            if (s.contains("data: [DONE]")) {
+                continue;
+            }
 
-        System.out.println("getChatStream: " + responseBody);
+            String part = s.substring(5);
+            JSONObject lineData = JSON.parseObject(part);
 
-        JSONObject lineData = JSON.parseObject(responseBody);
-        try {
+            try {
 
-            String message =
-                    lineData.getJSONObject("message").getJSONObject("content").getJSONArray(
-                            "parts").getString(0);
+                message = lineData.getJSONObject("message")
+                        .getJSONObject("content")
+                        .getJSONArray("parts")
+                        .getString(0);
 
-            conversationId = (String) lineData.get("conversation_id");
-            parentId = (String) ((Map<String, Object>) lineData.get("message")).get("id");
+                conversationId = lineData.getString("conversation_id");
+                parentId = (lineData.getJSONObject("message")).getString("id");
 
-            Map<String, Object> chatData = new HashMap<>();
-            chatData.put("message", message);
-            chatData.put("conversation_id", conversationId);
-            chatData.put("parent_id", parentId);
-            return chatData;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+                chatData.put("message", message);
+                chatData.put("conversation_id", conversationId);
+                chatData.put("parent_id", parentId);
+            } catch (Exception e) {
+                System.out.println("getChatStream Exception: " + part);
+                //  e.printStackTrace();
+                continue;
+            }
+
         }
+        return chatData;
+
     }
 
     // Gets the chat response as text -- Internal use only
