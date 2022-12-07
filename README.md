@@ -10,20 +10,36 @@
 Reverse Engineered ChatGPT by OpenAI. Extensible for chatbots etc.
 Thanks to [revChatGPT](https://github.com/acheong08/ChatGPT).
 
-# Instructions
-Instructions have been moved to the [Wiki](https://github.com/acheong08/ChatGPT/wiki).
-
-If you were using this prior to version 0.0.31, please update immediately. `pip3 install revChatGPT --upgrade`. Fixes has been done to avoid bot blocking
 
 # Features
 ![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
-- No moderation
-- Programmable.
 
-# Urgent help needed
-- Writing tests
-- Decrecate bs4 in favor of pure requests
-- **Error handling**
+## USE
+
+maven
+```
+<dependency>
+    <groupId>com.github.plexpt</groupId>
+    <artifactId>chatgpt</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+gradle
+```
+implementation group: 'com.github.plexpt', name: 'toolkit', version: '2022.7.0'
+```
+
+
+then
+```
+  Chatbot chatbot = new Chatbot("sessionToken");
+  Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
+  System.out.println(chatResponse.get("message"));
+```
+### Get sessionToken
+https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
+
 
 # Awesome ChatGPT
 [My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
