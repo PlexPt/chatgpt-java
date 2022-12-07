@@ -1,6 +1,7 @@
 package com.github.plexpt.chatgpt;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.gson.Gson;
 
@@ -8,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -73,7 +73,7 @@ public class Chatbot {
     Map<String, Object> getChatStream(Map<String, Object> data) {
         String url = "https://chat.openai.com/backend-api/conversation";
 
-        String responseBody = HttpUtil.createPost(url)
+        String body = HttpUtil.createPost(url)
                 .headerMap(headers, true)
                 .body(JSON.toJSONString(data), "application/json")
                 .execute()
@@ -81,7 +81,7 @@ public class Chatbot {
 
         String message = "";
         Map<String, Object> chatData = new HashMap<>();
-        for (String s : responseBody.split("\n")) {
+        for (String s : body.split("\n")) {
             if ((s == null) || "".equals(s)) {
                 continue;
             }
@@ -94,10 +94,14 @@ public class Chatbot {
 
             try {
 
-                message = lineData.getJSONObject("message")
+                JSONArray jsonArray = lineData.getJSONObject("message")
                         .getJSONObject("content")
-                        .getJSONArray("parts")
-                        .getString(0);
+                        .getJSONArray("parts");
+
+                if (jsonArray.size() == 0) {
+                    continue;
+                }
+                message = jsonArray.getString(0);
 
                 conversationId = lineData.getString("conversation_id");
                 parentId = (lineData.getJSONObject("message")).getString("id");
@@ -138,79 +142,125 @@ public class Chatbot {
             session.setProxies(proxies);
         }
 
-        Response response = session.post("https://chat.openai.com/backend-api/conversation", data);
+        HttpResponse response = session.post2("https://chat.openai.com/backend-api/conversation",
+                data);
+        String body = response.body();
 
         String errorDesc = "";
 
-        try {
-            JSONObject responseObject = JSON.parseObject(response.toString());
 
-
-            this.parentId = (String) responseObject.getJSONObject("message").get("id");
-            this.conversationId = (String) responseObject.get("conversation_id");
-
-            Map<String, Object> message = (Map<String, Object>) responseObject.getJSONObject(
-                            "message")
-                    .getJSONObject("content")
-                    .getJSONArray("parts")
-                    .get(0);
-            Map<String, Object> result = new HashMap<>();
-            result.put("message", message);
-            result.put("conversation_id", this.conversationId);
-            result.put("parent_id", this.parentId);
-            return result;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                // Get the title text
-                System.out.println(response.toString());
-
-                String titleText = Pattern.compile("<title>(.*)</title>")
-                        .matcher(response.toString())
-                        .group();
-
-//                // Find all div elements and capture the id attribute and the contents of the
-//                // element
-//                String divPattern = "<div[^>]*id=\"([^\"]*)\">(.*)</div>";
-//                Matcher matcher = Pattern.compile(divPattern)
-//                        .matcher(response.toString());
-//                List<String[]> divElements = (List<String[]>) matcher;
-//
-//
-//                for (int i = 1; i <= matcher.groupCount(); i++) {
-//                    String group = matcher.group(i);
-//                    // 对匹配的组进行操作
-//
-//                }
-//
-//                        .results()
-//                        .map(m -> new String[]{m.group(1), m.group(2)})
-//                        .collect(Collectors.toList());
-//
-//                // Loop through the div elements and find the one with the "message" id
-//                String messageText = "";
-//                for (String[] div : divElements) {
-//                    String divId = div[0];
-//                    String divContent = div[1];
-//                    if (divId.equals("message")) {
-//                        messageText = divContent;
-//                        break;
-//                    }
-//                }
-                // Concatenate the title and message text
-                errorDesc = titleText;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-//                errorDesc = (String) ((Map) JSON.parse(response.toString())).get("detail");
-//                if (errorDesc.containsKey("message")) {
-//                    errorDesc = (String) errorDesc.get("message");
-//                }
-            } finally {
-                System.out.println(response.toString());
-                throw new RuntimeException("Response is not in the correct format " + errorDesc);
+        String message = "";
+        Map<String, Object> chatData = new HashMap<>();
+        for (String s : body.split("\n")) {
+            if ((s == null) || "".equals(s)) {
+                continue;
             }
+            if (s.contains("data: [DONE]")) {
+                continue;
+            }
+
+            String part = s.substring(5);
+            JSONObject lineData = JSON.parseObject(part);
+
+            try {
+
+                JSONArray jsonArray = lineData.getJSONObject("message")
+                        .getJSONObject("content")
+                        .getJSONArray("parts");
+
+                if (jsonArray.size() == 0) {
+                    continue;
+                }
+                message = jsonArray.getString(0);
+
+                conversationId = lineData.getString("conversation_id");
+                parentId = (lineData.getJSONObject("message")).getString("id");
+
+                chatData.put("message", message);
+                chatData.put("conversation_id", conversationId);
+                chatData.put("parent_id", parentId);
+            } catch (Exception e) {
+                System.out.println("getChatStream Exception: " + part);
+                //  e.printStackTrace();
+                continue;
+            }
+
         }
+        return chatData;
+
+//        try {
+//            JSONObject responseObject = JSON.parseObject(body);
+//
+//
+//            this.parentId = (String) responseObject.getJSONObject("message").get("id");
+//            this.conversationId = (String) responseObject.get("conversation_id");
+//
+//            JSONArray jsonArray = responseObject.getJSONObject(
+//                            "message")
+//                    .getJSONObject("content")
+//                    .getJSONArray("parts");
+//            if (jsonArray.size() == 0) {
+////                continue;
+//            }
+//            Map<String, Object> message = (Map<String, Object>) jsonArray
+//                    .get(0);
+//            Map<String, Object> result = new HashMap<>();
+//            result.put("message", message);
+//            result.put("conversation_id", this.conversationId);
+//            result.put("parent_id", this.parentId);
+//            return result;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            try {
+//                // Get the title text
+//                System.out.println(body);
+//
+//                String titleText = Pattern.compile("<title>(.*)</title>")
+//                        .matcher(response.toString())
+//                        .group();
+//
+////                // Find all div elements and capture the id attribute and the contents of the
+////                // element
+////                String divPattern = "<div[^>]*id=\"([^\"]*)\">(.*)</div>";
+////                Matcher matcher = Pattern.compile(divPattern)
+////                        .matcher(response.toString());
+////                List<String[]> divElements = (List<String[]>) matcher;
+////
+////
+////                for (int i = 1; i <= matcher.groupCount(); i++) {
+////                    String group = matcher.group(i);
+////                    // 对匹配的组进行操作
+////
+////                }
+////
+////                        .results()
+////                        .map(m -> new String[]{m.group(1), m.group(2)})
+////                        .collect(Collectors.toList());
+////
+////                // Loop through the div elements and find the one with the "message" id
+////                String messageText = "";
+////                for (String[] div : divElements) {
+////                    String divId = div[0];
+////                    String divContent = div[1];
+////                    if (divId.equals("message")) {
+////                        messageText = divContent;
+////                        break;
+////                    }
+////                }
+//                // Concatenate the title and message text
+//                errorDesc = titleText;
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+////                errorDesc = (String) ((Map) JSON.parse(response.toString())).get("detail");
+////                if (errorDesc.containsKey("message")) {
+////                    errorDesc = (String) errorDesc.get("message");
+////                }
+//            } finally {
+//                System.out.println(response.toString());
+//                throw new RuntimeException("Response is not in the correct format " + errorDesc);
+//            }
+//        }
 
     }
 

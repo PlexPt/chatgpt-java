@@ -1,5 +1,7 @@
 package com.github.plexpt.chatgpt;
 
+import com.alibaba.fastjson2.JSON;
+
 import net.dreamlu.mica.http.HttpRequest;
 
 import java.util.HashMap;
@@ -28,6 +30,18 @@ public class Session {
                 .bodyJson(data)
                 .execute()
                 .response();
+    }
+
+    public HttpResponse post2(String url, Map<String, Object> data) {
+        getCookiesString();
+
+
+        return HttpUtil.createPost(url)
+                .addHeaders(headers)
+                .cookie(getCookiesString())
+                .body(JSON.toJSONString(data), "application/json")
+                .execute();
+
     }
 
     public Response post(String url, Map<String, Object> data, boolean followRedirects) {

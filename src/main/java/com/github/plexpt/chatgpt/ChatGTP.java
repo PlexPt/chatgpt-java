@@ -101,8 +101,6 @@ public class ChatGTP {
                         System.out.println(e);
                     }
                 } else {
-                    List<String> messages = new ArrayList<>();
-                    int linesPrinted = 0;
 
                     try {
                         System.out.println("Chatbot: ");
@@ -118,19 +116,6 @@ public class ChatGTP {
                             }
                         }
 
-                        // Wrap each part separately
-//                        formattedParts.clear();
-//                        for (String part : messageParts) {
-//                            formattedParts.addAll(Arrays.asList(TextWrapper.wrap(part, width
-//                                    = 80)));
-//                            for (String formattedLine : formattedParts) {
-//                                if (formattedParts.size() > linesPrinted + 1) {
-//                                    System.out.println(formattedParts.get(linesPrinted));
-//                                    linesPrinted++;
-//                                }
-//                            }
-//                        }
-//                        System.out.println(formattedParts.get(linesPrinted));
                     } catch (Exception e) {
                         System.out.println("Something went wrong!");
                         e.printStackTrace();
