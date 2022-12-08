@@ -2,6 +2,15 @@
 
 可以写代码，写小说，写作文、演讲稿、工作报告、读书笔记、合同、菜谱等
 
+
+
+https://www.zhihu.com/question/570189639/answer/2785991912
+![image](https://user-images.githubusercontent.com/15922823/206373737-a855edec-c027-423d-9d97-957d2cca8dae.png)
+![image](https://user-images.githubusercontent.com/15922823/206373828-168554fd-5ab5-43fc-ba94-d83d098bb346.png)
+![image](https://user-images.githubusercontent.com/15922823/206373876-1393102c-ed44-4a38-9908-3aba8cfc3ac6.png)
+
+
+
 ![image](https://user-images.githubusercontent.com/15922823/206355327-62d6029c-7a03-4794-8af3-05488fb26c81.png)
 
 ![image](https://user-images.githubusercontent.com/15922823/206355509-49e767ef-146e-4cea-95fd-3b2ad7b71129.png)
