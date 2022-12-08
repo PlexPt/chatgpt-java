@@ -13,6 +13,7 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。
 # 功能
 ![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
 
+可以写代码，写小说，写作文、演讲稿、工作报告、读书笔记、合同等
 ## 使用
 
 maven
@@ -39,7 +40,12 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.0.1'
 ### sessionToken获取
 https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 
-注册教程
+1. 通过 https://chat.openai.com/chat 注册并登录。
+2. 打开浏览器开发者工具，切换到 Application 标签页。
+3. 在左侧的 Storage - Cookies 中找到 __Secure-next-auth.session-token 一行并复制其值
+
+
+### 注册教程
 
 https://juejin.cn/post/7173447848292253704
 
