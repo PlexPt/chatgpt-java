@@ -8,7 +8,7 @@
 [English Doc](https://github.com/PlexPt/chatgpt-java/blob/main/README_en.md).
 
 
-OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。
+OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得不错请右上角Star
 
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
