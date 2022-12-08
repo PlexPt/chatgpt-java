@@ -42,6 +42,7 @@ https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 
 https://juejin.cn/post/7173447848292253704
 
+https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 
 ### 也可以控制台直接使用
 1. 下载
