@@ -1,8 +1,9 @@
 
 
 # ChatGPT Java Api
-[![PyPi](https://img.shields.io/pypi/v/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
-[![PyPi](https://img.shields.io/pypi/dm/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
+
+![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.plexpt/chatgpt)](https://maven-badges.herokuapp.com/maven-central/com.github.plexpt/chatgpt)
 
 
 OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。
