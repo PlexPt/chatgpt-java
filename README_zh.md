@@ -13,6 +13,9 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。
 # 功能
 ![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
 
+![image](https://user-images.githubusercontent.com/15922823/206353660-47d99158-a664-4ade-b2f1-e2cc8ac68b74.png)
+
+
 可以写代码，写小说，写作文、演讲稿、工作报告、读书笔记、合同等
 ## 使用
 
