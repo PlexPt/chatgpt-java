@@ -1,7 +1,7 @@
 
 
 # ChatGPT Java Api
-[![PyPi](https://img.shields.io/pypi/v/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
+[![PyPi](https://img.shields.io/maven/v/chatgpt.svg)](https://pypi.python.org/pypi/revChatGPT)
 [![PyPi](https://img.shields.io/pypi/dm/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
 
 
@@ -22,13 +22,13 @@ maven
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'toolkit', version: '2022.7.0'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.0.1'
 ```
 
 

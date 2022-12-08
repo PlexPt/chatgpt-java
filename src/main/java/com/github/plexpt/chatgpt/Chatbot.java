@@ -18,7 +18,7 @@ import okhttp3.Response;
 
 @Data
 public class Chatbot {
-    private Map<String, String> config;
+    private Map<String, String> config = new HashMap<>();
     private String conversationId;
     private String parentId;
     private Map<String, String> headers;
@@ -40,7 +40,6 @@ public class Chatbot {
     }
 
     public Chatbot(String sessionToken) {
-        Map<String, String> config = new HashMap<>();
         config.put("session_token", sessionToken);
         this.parentId = UUID.randomUUID().toString();
         refreshSession();

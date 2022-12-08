@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>chatgpt-java</name>
     <description>chatgpt-java</description>
 
@@ -173,10 +173,13 @@
             </plugins>
         </pluginManagement>
         <plugins>
+
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
             </plugin>
+
+
         </plugins>
     </build>
 
