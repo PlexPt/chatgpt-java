@@ -44,6 +44,8 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.0.1'
   Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
   System.out.println(chatResponse.get("message"));
 ```
+注意：一个Chatbot实例为一个Session，会持有对话上下文，可以回复：继续 让机器人接着说。如果需要对话互相隔离，new 多个Chatbot实例即可。
+
 ### sessionToken获取
 https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 

@@ -55,7 +55,6 @@ public class ChatGTP {
                     });
 
             Chatbot chatbot = new Chatbot(params, null);
-
             String prompt;
             while (true) {
                 prompt = getInput("\nYou:\n");
