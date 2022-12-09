@@ -157,9 +157,9 @@ public class Chatbot {
             }
 
             String part = s.substring(5);
-            JSONObject lineData = JSON.parseObject(part);
 
             try {
+                JSONObject lineData = JSON.parseObject(part);
 
                 JSONArray jsonArray = lineData.getJSONObject("message")
                         .getJSONObject("content")
