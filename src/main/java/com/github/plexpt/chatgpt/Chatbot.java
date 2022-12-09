@@ -3,7 +3,6 @@ package com.github.plexpt.chatgpt;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.google.gson.Gson;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,8 +25,6 @@ public class Chatbot {
     private String conversationIdPrev;
     private String parentIdPrev;
 
-
-    private final Gson gson = new Gson();
 
     public Chatbot(Map<String, String> config, String conversationId) {
         this.config = config;
