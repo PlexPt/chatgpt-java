@@ -2,7 +2,6 @@ package com.github.plexpt.chatgpt;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +18,6 @@ import lombok.SneakyThrows;
 
 
 public class ChatGTP {
-    private static final Gson gson = new Gson();
 
     @SneakyThrows
     public static String getInput(String prompt) {
@@ -105,7 +103,6 @@ public class ChatGTP {
 
                     try {
                         System.out.println("Chatbot: ");
-                        List<String> formattedParts = new ArrayList<>();
                         Map<String, Object> message = chatbot.getChatResponse(prompt, "stream");
                         // Split the message by newlines
                         String[] messageParts = message.get("message").toString().split("\n");

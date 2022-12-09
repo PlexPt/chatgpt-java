@@ -136,17 +136,11 @@ public class Chatbot {
         session.setHeaders(this.headers);
 
         // Set multiple cookies
-        session.getCookies().put("__Secure-next-auth.session-token", config.get(
-                "session_token"));
+        session.getCookies().put("__Secure-next-auth.session-token", config.get("session_token"));
         session.getCookies().put("__Secure-next-auth.callback-url", "https://chat.openai.com/");
 
         // Set proxies
-        if (config.get("proxy") != null && !config.get("proxy").equals("")) {
-            Map<String, String> proxies = new HashMap<>();
-            proxies.put("http", config.get("proxy"));
-            proxies.put("https", config.get("proxy"));
-            session.setProxies(proxies);
-        }
+        setupProxy(session);
 
         HttpResponse response = session.post2("https://chat.openai.com/backend-api/conversation",
                 data);
@@ -193,81 +187,15 @@ public class Chatbot {
 
         }
         return chatData;
+    }
 
-//        try {
-//            JSONObject responseObject = JSON.parseObject(body);
-//
-//
-//            this.parentId = (String) responseObject.getJSONObject("message").get("id");
-//            this.conversationId = (String) responseObject.get("conversation_id");
-//
-//            JSONArray jsonArray = responseObject.getJSONObject(
-//                            "message")
-//                    .getJSONObject("content")
-//                    .getJSONArray("parts");
-//            if (jsonArray.size() == 0) {
-////                continue;
-//            }
-//            Map<String, Object> message = (Map<String, Object>) jsonArray
-//                    .get(0);
-//            Map<String, Object> result = new HashMap<>();
-//            result.put("message", message);
-//            result.put("conversation_id", this.conversationId);
-//            result.put("parent_id", this.parentId);
-//            return result;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            try {
-//                // Get the title text
-//                System.out.println(body);
-//
-//                String titleText = Pattern.compile("<title>(.*)</title>")
-//                        .matcher(response.toString())
-//                        .group();
-//
-////                // Find all div elements and capture the id attribute and the contents of the
-////                // element
-////                String divPattern = "<div[^>]*id=\"([^\"]*)\">(.*)</div>";
-////                Matcher matcher = Pattern.compile(divPattern)
-////                        .matcher(response.toString());
-////                List<String[]> divElements = (List<String[]>) matcher;
-////
-////
-////                for (int i = 1; i <= matcher.groupCount(); i++) {
-////                    String group = matcher.group(i);
-////                    // 对匹配的组进行操作
-////
-////                }
-////
-////                        .results()
-////                        .map(m -> new String[]{m.group(1), m.group(2)})
-////                        .collect(Collectors.toList());
-////
-////                // Loop through the div elements and find the one with the "message" id
-////                String messageText = "";
-////                for (String[] div : divElements) {
-////                    String divId = div[0];
-////                    String divContent = div[1];
-////                    if (divId.equals("message")) {
-////                        messageText = divContent;
-////                        break;
-////                    }
-////                }
-//                // Concatenate the title and message text
-//                errorDesc = titleText;
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-////                errorDesc = (String) ((Map) JSON.parse(response.toString())).get("detail");
-////                if (errorDesc.containsKey("message")) {
-////                    errorDesc = (String) errorDesc.get("message");
-////                }
-//            } finally {
-//                System.out.println(response.toString());
-//                throw new RuntimeException("Response is not in the correct format " + errorDesc);
-//            }
-//        }
-
+    private void setupProxy(Session session) {
+        if (config.get("proxy") != null && !config.get("proxy").equals("")) {
+            Map<String, String> proxies = new HashMap<>();
+            proxies.put("http", config.get("proxy"));
+            proxies.put("https", config.get("proxy"));
+            session.setProxies(proxies);
+        }
     }
 
     public Map<String, Object> getChatResponse(String prompt, String output) {
@@ -316,12 +244,7 @@ public class Chatbot {
             Session session = new Session();
 
             // Set proxies
-            if (config.get("proxy") != null && !config.get("proxy").equals("")) {
-                Map<String, String> proxies = new HashMap<>();
-                proxies.put("http", config.get("proxy"));
-                proxies.put("https", config.get("proxy"));
-                session.setProxies(proxies);
-            }
+            setupProxy(session);
 
             // Set cookies
             session.getCookies().put("__Secure-next-auth.session-token", config.get(
@@ -350,19 +273,9 @@ public class Chatbot {
 
                 config.put("Authorization", accessToken);
 
-
-//                List<Cookie> cookies = Cookie.parseAll(HttpUrl.parse(urlSession),
-//                        response.headers());
-//                for (Cookie cookie1 : cookies) {
-//                    if (cookie1.name().equals(name)) {
-//                        config.put("session_token", response.getCookieValue(name));
-//                    }
-//                }
-
                 this.refreshHeaders();
             } catch (Exception e) {
                 System.out.println("Error refreshing session");
-//                System.out.println(response.toString());
                 throw new Exception("Error refreshing session", e);
             }
         } else if (config.containsKey("email") && config.containsKey("password")) {

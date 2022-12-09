@@ -62,6 +62,7 @@ https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 1. 下载
 2. 编辑 config.json 里的sessionToken
 3. 运行 run.bat
+4. 注意：输入之后需要回车两次
 
 # Awesome ChatGPT
 [My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
