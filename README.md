@@ -1,5 +1,5 @@
 
-<h1 style=" -webkit-animation: rainbow 5s infinite; -moz-animation: rainbow 5s infinite; -o-animation: rainbow 5s infinite; animation: rainbow 5s infinite;">ChatGPT Java Api</h1>
+<h1 style="text-align: center; color: hotpink; -webkit-animation: rainbow 5s infinite; -moz-animation: rainbow 5s infinite; -o-animation: rainbow 5s infinite; animation: rainbow 5s infinite;">ChatGPT Java Api</h1>
  
 
 ![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
