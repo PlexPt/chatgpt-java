@@ -248,7 +248,7 @@ public class Chatbot {
                     "session_token"));
 
             String urlSession = "https://chat.openai.com/api/auth/session";
-            HttpResponse response = session.get2(urlSession,
+            HttpResponse response = session.get3(urlSession,
                     Collections.singletonMap(
                             "User-Agent",
                             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15" +
