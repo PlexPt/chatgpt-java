@@ -90,6 +90,8 @@ https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 4. 找到 cf_clearance 复制
 5. 在network中获取 user-agent 复制
 
+注意：如果提示403. 请检查以上参数是否正确，是否过期。并且获取以上参数的浏览器要和本程序在同一IP地址
+
 ### 注册教程
 
 https://juejin.cn/post/7173447848292253704
