@@ -50,7 +50,7 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得�
 
 10. 聊天。我能够通过文字和用户进行交流，提供娱乐和放松。
 
-# [一些有趣的玩法](./USEAGE.md)
+# [一些有趣的玩法](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
 
 
