@@ -75,7 +75,7 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.1.0'
 
 然后
 ```
-  Chatbot chatbot = new Chatbot("sessionToken");
+  Chatbot chatbot = new Chatbot("sessionToken","cf_clearance","user-agent");
   Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
   System.out.println(chatResponse.get("message"));
 ```
