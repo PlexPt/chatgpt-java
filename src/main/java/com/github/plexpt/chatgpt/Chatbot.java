@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import lombok.Data;
@@ -17,10 +18,12 @@ import okhttp3.Response;
 
 @Data
 public class Chatbot {
-    private String cfClearance;
-    private Map<String, String> config = new HashMap<>();
-    private String conversationId;
+    private String conversationId = null;
 
+    private String sessionToken;
+
+    private String authorization = "";
+    private String cfClearance;
     private String userAgent;
     private String parentId;
     private Map<String, String> headers;
@@ -29,11 +32,17 @@ public class Chatbot {
     private String parentIdPrev;
 
 
-    public Chatbot(Map<String, String> config, String conversationId) {
-        this.config = config;
+    public Chatbot(Config config) {
+        this(config, null);
+    }
+
+    public Chatbot(Config config, String conversationId) {
+        this.sessionToken = config.getSession_token();
+        this.cfClearance = config.getCfClearance();
+        this.userAgent = config.getUserAgent();
         this.conversationId = conversationId;
         this.parentId = UUID.randomUUID().toString();
-        if (config.containsKey("session_token")) {
+        if (StrUtil.isNotEmpty(sessionToken)) {
             refreshSession();
         }
     }
@@ -48,7 +57,7 @@ public class Chatbot {
     public Chatbot(String sessionToken, String cfClearance, String userAgent) {
         this.userAgent = userAgent;
         this.cfClearance = cfClearance;
-        config.put("session_token", sessionToken);
+        this.sessionToken = sessionToken;
         this.parentId = UUID.randomUUID().toString();
         refreshSession();
     }
@@ -62,15 +71,14 @@ public class Chatbot {
 
     // Refreshes the headers -- Internal use only
     public void refreshHeaders() {
-        if (!config.containsKey("Authorization")) {
-            config.put("Authorization", "");
-        } else if (config.get("Authorization") == null) {
-            config.put("Authorization", "");
+
+        if (StrUtil.isEmpty(authorization)) {
+            authorization = "";
         }
         this.headers = new HashMap<String, String>() {{
             put("Host", "chat.openai.com");
             put("Accept", "text/event-stream");
-            put("Authorization", "Bearer " + config.get("Authorization"));
+            put("Authorization", "Bearer " + authorization);
             put("Content-Type", "application/json");
             put("User-Agent", userAgent);
             put("X-Openai-Assistant-App-Id", "");
@@ -142,7 +150,7 @@ public class Chatbot {
         session.setHeaders(this.headers);
 
         // Set multiple cookies
-        session.getCookies().put("__Secure-next-auth.session-token", config.get("session_token"));
+        session.getCookies().put("__Secure-next-auth.session-token", sessionToken);
         session.getCookies().put("__Secure-next-auth.callback-url", "https://chat.openai.com/");
         session.getCookies().put("cf_clearance", cfClearance);
 
@@ -197,12 +205,12 @@ public class Chatbot {
     }
 
     private void setupProxy(Session session) {
-        if (config.get("proxy") != null && !config.get("proxy").equals("")) {
-            Map<String, String> proxies = new HashMap<>();
-            proxies.put("http", config.get("proxy"));
-            proxies.put("https", config.get("proxy"));
-            session.setProxies(proxies);
-        }
+//        if (config.get("proxy") != null && !config.get("proxy").equals("")) {
+//            Map<String, String> proxies = new HashMap<>();
+//            proxies.put("http", config.get("proxy"));
+//            proxies.put("https", config.get("proxy"));
+//            session.setProxies(proxies);
+//        }
     }
 
     public Map<String, Object> getChatResponse(String prompt, String output) {
@@ -240,95 +248,50 @@ public class Chatbot {
 
     @SneakyThrows
     public void refreshSession() {
-        if (!config.containsKey("session_token")) {
+
+        if (sessionToken == null || sessionToken.equals("")) {
             throw new RuntimeException("No tokens provided");
-        } else {
-            String sessionToken = config.get("session_token");
-            if (sessionToken == null || sessionToken.equals("")) {
-                throw new RuntimeException("No tokens provided");
-            }
-            Session session = new Session();
-
-            // Set proxies
-            setupProxy(session);
-
-            // Set cookies
-            session.getCookies().put("__Secure-next-auth.session-token", config.get(
-                    "session_token"));
-            session.getCookies().put("cf_clearance", cfClearance);
-
-            String urlSession = "https://chat.openai.com/api/auth/session";
-            HttpResponse response = session.get2(urlSession,
-                    Collections.singletonMap("User-Agent", userAgent));
-
-            try {
-                String name = "__Secure-next-auth.session-token";
-                String cookieValue = response.getCookieValue(name);
-                config.put("session_token", cookieValue);
-
-                String body = response.body();
-                System.out.println("session_token: " + cookieValue);
-                JSONObject responseObject = JSON.parseObject(body);
-
-                String accessToken = responseObject.getString("accessToken");
-                System.out.println("accessToken: " + accessToken);
-
-                config.put("Authorization", accessToken);
-
-                this.refreshHeaders();
-            } catch (Exception e) {
-                System.out.println("Error refreshing session");
-                throw new Exception("Error refreshing session", e);
-            }
         }
-    }
+        Session session = new Session();
 
+        // Set proxies
+        setupProxy(session);
 
-    @Deprecated
-    public void login(String email, String password) {
-        System.out.println("Logging in...");
-        boolean useProxy = false;
-        String proxy = null;
-        if (config.containsKey("proxy")) {
-            if (!config.get("proxy").equals("")) {
-                useProxy = true;
-                proxy = config.get("proxy");
-            }
+        // Set cookies
+        session.getCookies().put("__Secure-next-auth.session-token", sessionToken);
+        session.getCookies().put("cf_clearance", cfClearance);
+
+        String urlSession = "https://chat.openai.com/api/auth/session";
+        HttpResponse response = session.get2(urlSession,
+                Collections.singletonMap("User-Agent", userAgent));
+        if (response.getStatus() != 200) {
+            System.out.println("err code: " + response.getStatus());
+            System.out.println("cf_clearance: " + cfClearance);
+            System.out.println("token: " + sessionToken);
+            System.out.println("userAgent: " + userAgent);
+
+            return;
         }
-        OpenAIAuth auth = new OpenAIAuth(email, password, useProxy, proxy);
+
         try {
-            auth.begin();
-        } catch (Exception e) {
-            // if RuntimeException with e as "Captcha detected" fail
-            if (e.getMessage().equals("Captcha detected")) {
-                System.out.println("Captcha not supported. Use session tokens instead.");
-                throw new RuntimeException("Captcha detected", e);
-            }
-            throw new RuntimeException("Error logging in", e);
-        }
-        if (auth.getAccessToken() != null) {
-            config.put("Authorization", auth.getAccessToken());
-            if (auth.getSessionToken() != null) {
-                config.put("session_token", auth.getSessionToken());
-            } else {
-                String possibleTokens = auth.getSession().getCookies().get("__Secure-next-auth" +
-                        ".session-token");
-                if (possibleTokens != null) {
-                    if (possibleTokens.length() > 1) {
-                        config.put("session_token", possibleTokens);
-//                        config.put("session_token", possibleTokens[0]);
-                    } else {
-                        try {
-                            config.put("session_token", possibleTokens);
-                        } catch (Exception e) {
-                            throw new RuntimeException("Error logging in", e);
-                        }
-                    }
-                }
-            }
+            String name = "__Secure-next-auth.session-token";
+            String cookieValue = response.getCookieValue(name);
+            sessionToken = cookieValue;
+
+            String body = response.body();
+            System.out.println("session_token: " + cookieValue);
+            JSONObject responseObject = JSON.parseObject(body);
+
+            String accessToken = responseObject.getString("accessToken");
+            System.out.println("accessToken: " + accessToken);
+
+            authorization = accessToken;
+//                config.put("Authorization", accessToken);
+
             this.refreshHeaders();
-        } else {
-            throw new RuntimeException("Error logging in");
+        } catch (Exception e) {
+            System.out.println("Error refreshing session");
+            throw new Exception("Error refreshing session", e);
         }
     }
 

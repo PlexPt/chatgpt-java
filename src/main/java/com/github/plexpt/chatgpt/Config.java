@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class Config {
     private String email;
     private String password;
+    private String userAgent;
+    private String cfClearance;
+    private String session_token;
 }

@@ -50,11 +50,9 @@ public class ChatGTP {
 
             String configString = FileUtil.readUtf8String(new File("config.json"));
 
-            Map<String, String> params = JSON.parseObject(configString,
-                    new TypeReference<Map<String, String>>() {
-                    });
+            Config config = JSON.parseObject(configString, Config.class);
 
-            Chatbot chatbot = new Chatbot(params, null);
+            Chatbot chatbot = new Chatbot(config, null);
             String prompt;
             while (true) {
                 prompt = getInput("\nYou:\n");
@@ -79,10 +77,7 @@ public class ChatGTP {
                         chatbot.rollbackConversation();
                         System.out.println("Chat session rolled back.");
                         continue;
-                    } else if (prompt.equals("!config")) {
-                        System.out.println(JSON.toJSONString(chatbot.getConfig()));
-                        continue;
-                    } else if (prompt.equals("!exit")) {
+                    }  else if (prompt.equals("!exit")) {
                         break;
                     }
                 }
