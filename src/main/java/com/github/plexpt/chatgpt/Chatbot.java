@@ -260,18 +260,23 @@ public class Chatbot {
         // Set cookies
         session.getCookies().put("__Secure-next-auth.session-token", sessionToken);
         session.getCookies().put("cf_clearance", cfClearance);
+        String cookiesString = session.getCookiesString();
         Map<String, String> map = new HashMap<>();
         map.put("User-Agent", userAgent);
+        map.put("cookie", cookiesString);
+        map.put("Cookie", cookiesString);
         session.setHeaders(map);
-
         String urlSession = "https://chat.openai.com/api/auth/session";
         HttpResponse response = session.get2(urlSession);
 
         if (response.getStatus() != 200) {
             System.err.println("err code: " + response.getStatus());
-            System.out.println("cf_clearance: " + cfClearance);
-            System.out.println("token: " + sessionToken);
-            System.out.println("userAgent: " + userAgent);
+            System.err.println("cf_clearance: " + cfClearance);
+            System.err.println("token: " + sessionToken);
+            System.err.println("userAgent: " + userAgent);
+
+            System.err.println("请检查以上参数是否正确，是否过期。并且获取以上参数的浏览器要和本程序在同一IP地址" );
+            System.err.println("Please check whether the above parameters are correct or expired. And the browser that obtains the above parameters must be at the same IP address as this program" );
 
             return;
         }

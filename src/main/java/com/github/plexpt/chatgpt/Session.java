@@ -112,7 +112,7 @@ public class Session {
     }
 
 
-    private String getCookiesString() {
+    public String getCookiesString() {
         String result = "";
         for (Map.Entry<String, String> entry : cookies.entrySet()) {
             String key = entry.getKey();
