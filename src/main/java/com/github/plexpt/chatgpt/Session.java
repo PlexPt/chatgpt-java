@@ -68,14 +68,12 @@ public class Session {
         return response;
     }
 
-    public HttpResponse get2(String url, Map<String, String> data) {
+    public HttpResponse get2(String url) {
         getCookiesString();
 
-        Map<String, Object> map = new HashMap<>(data);
         return HttpUtil.createGet(url)
                 .addHeaders(headers)
                 .cookie(getCookiesString())
-                .form(map)
                 .execute();
     }
 

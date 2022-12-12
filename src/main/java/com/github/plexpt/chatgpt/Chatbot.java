@@ -26,7 +26,7 @@ public class Chatbot {
     private String cfClearance;
     private String userAgent;
     private String parentId;
-    private Map<String, String> headers;
+    private Map<String, String> headers = new HashMap<>();
 
     private String conversationIdPrev;
     private String parentIdPrev;
@@ -260,12 +260,15 @@ public class Chatbot {
         // Set cookies
         session.getCookies().put("__Secure-next-auth.session-token", sessionToken);
         session.getCookies().put("cf_clearance", cfClearance);
+        Map<String, String> map = new HashMap<>();
+        map.put("User-Agent", userAgent);
+        session.setHeaders(map);
 
         String urlSession = "https://chat.openai.com/api/auth/session";
-        HttpResponse response = session.get2(urlSession,
-                Collections.singletonMap("User-Agent", userAgent));
+        HttpResponse response = session.get2(urlSession);
+
         if (response.getStatus() != 200) {
-            System.out.println("err code: " + response.getStatus());
+            System.err.println("err code: " + response.getStatus());
             System.out.println("cf_clearance: " + cfClearance);
             System.out.println("token: " + sessionToken);
             System.out.println("userAgent: " + userAgent);
