@@ -17,8 +17,11 @@ import okhttp3.Response;
 
 @Data
 public class Chatbot {
+    private String cfClearance;
     private Map<String, String> config = new HashMap<>();
     private String conversationId;
+
+    private String userAgent;
     private String parentId;
     private Map<String, String> headers;
 
@@ -30,13 +33,21 @@ public class Chatbot {
         this.config = config;
         this.conversationId = conversationId;
         this.parentId = UUID.randomUUID().toString();
-        if (config.containsKey("session_token") || (config.containsKey("email")
-                && config.containsKey("password"))) {
+        if (config.containsKey("session_token")) {
             refreshSession();
         }
     }
 
-    public Chatbot(String sessionToken) {
+    /**
+     * 初始化
+     *
+     * @param sessionToken
+     * @param cfClearance
+     * @param userAgent
+     */
+    public Chatbot(String sessionToken, String cfClearance, String userAgent) {
+        this.userAgent = userAgent;
+        this.cfClearance = cfClearance;
         config.put("session_token", sessionToken);
         this.parentId = UUID.randomUUID().toString();
         refreshSession();
@@ -61,9 +72,7 @@ public class Chatbot {
             put("Accept", "text/event-stream");
             put("Authorization", "Bearer " + config.get("Authorization"));
             put("Content-Type", "application/json");
-            put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1" +
-                    ".15 (KHTML, like Gecko) " +
-                    "Version/16.1 Safari/605.1.15");
+            put("User-Agent", userAgent);
             put("X-Openai-Assistant-App-Id", "");
             put("Connection", "close");
             put("Accept-Language", "en-US,en;q=0.9");
@@ -135,6 +144,7 @@ public class Chatbot {
         // Set multiple cookies
         session.getCookies().put("__Secure-next-auth.session-token", config.get("session_token"));
         session.getCookies().put("__Secure-next-auth.callback-url", "https://chat.openai.com/");
+        session.getCookies().put("cf_clearance", cfClearance);
 
         // Set proxies
         setupProxy(session);
@@ -230,10 +240,9 @@ public class Chatbot {
 
     @SneakyThrows
     public void refreshSession() {
-        if (!config.containsKey("session_token") && (!config.containsKey("email") ||
-                !config.containsKey("password"))) {
+        if (!config.containsKey("session_token")) {
             throw new RuntimeException("No tokens provided");
-        } else if (config.containsKey("session_token")) {
+        } else {
             String sessionToken = config.get("session_token");
             if (sessionToken == null || sessionToken.equals("")) {
                 throw new RuntimeException("No tokens provided");
@@ -246,15 +255,11 @@ public class Chatbot {
             // Set cookies
             session.getCookies().put("__Secure-next-auth.session-token", config.get(
                     "session_token"));
+            session.getCookies().put("cf_clearance", cfClearance);
 
             String urlSession = "https://chat.openai.com/api/auth/session";
             HttpResponse response = session.get2(urlSession,
-                    Collections.singletonMap(
-                            "User-Agent",
-                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15" +
-                                    " (KHTML," +
-                                    " like Gecko) Version/16.1 Safari/605.1.15 "
-                    ));
+                    Collections.singletonMap("User-Agent", userAgent));
 
             try {
                 String name = "__Secure-next-auth.session-token";
@@ -275,20 +280,11 @@ public class Chatbot {
                 System.out.println("Error refreshing session");
                 throw new Exception("Error refreshing session", e);
             }
-        } else if (config.containsKey("email") && config.containsKey("password")) {
-            try {
-                this.login(config.get("email"), config.get("password"));
-            } catch (Exception e) {
-                System.out.println("Error refreshing session: ");
-                System.out.println(e);
-                throw e;
-            }
-        } else {
-            throw new RuntimeException("No tokens provided");
         }
     }
 
 
+    @Deprecated
     public void login(String email, String password) {
         System.out.println("Logging in...");
         boolean useProxy = false;

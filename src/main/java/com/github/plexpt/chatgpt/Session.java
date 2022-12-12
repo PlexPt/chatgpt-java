@@ -79,16 +79,6 @@ public class Session {
                 .execute();
     }
 
-    private String getCookiesString() {
-        String result = "";
-        for (Map.Entry<String, String> entry : cookies.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            result = result + key + "=" + value + "; ";
-        }
-        headers.put("cookie", result);
-        return result;
-    }
 
     public String getString(String url, Map<String, String> data) {
 
@@ -121,5 +111,17 @@ public class Session {
                 .bodyJson(payload)
                 .execute()
                 .response();
+    }
+
+
+    private String getCookiesString() {
+        String result = "";
+        for (Map.Entry<String, String> entry : cookies.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            result = result + key + "=" + value + "; ";
+        }
+        headers.put("cookie", result);
+        return result;
     }
 }

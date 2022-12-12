@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <name>chatgpt-java</name>
     <description>chatgpt-java</description>
 

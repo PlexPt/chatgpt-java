@@ -63,13 +63,13 @@ maven
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.0.3'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.1.0'
 ```
 
 
@@ -87,7 +87,8 @@ https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
 1. 通过 https://chat.openai.com/chat 注册并登录。
 2. 打开浏览器开发者工具，切换到 Application 标签页。
 3. 在左侧的 Storage - Cookies 中找到 __Secure-next-auth.session-token 一行并复制其值
-
+4. 找到 cf_clearance 复制
+5. 在network中获取 user-agent 复制
 
 ### 注册教程
 
