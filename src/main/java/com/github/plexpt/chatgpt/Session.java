@@ -79,6 +79,17 @@ public class Session {
                 .execute();
     }
 
+    public HttpResponse get3(String url, Map<String, String> headers) {
+        getCookiesString();
+
+        Map<String, Object> map = new HashMap<>();
+        return HttpUtil.createGet(url)
+                .addHeaders(headers)
+                .cookie(getCookiesString())
+                .form(map)
+                .execute();
+    }
+
     private String getCookiesString() {
         String result = "";
         for (Map.Entry<String, String> entry : cookies.entrySet()) {
