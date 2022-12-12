@@ -14,6 +14,8 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得�
 
 ## QQ交流群：627788462
 
+# [一些有趣的玩法](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
+
 # 功能
 ![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
 
@@ -50,7 +52,7 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得�
 
 10. 聊天。我能够通过文字和用户进行交流，提供娱乐和放松。
 
-# [一些有趣的玩法](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
+
 
 
 
