@@ -183,7 +183,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.plexpt.chatgpt.ChatGTP</mainClass>
+                            <mainClass>com.github.plexpt.chatgpt.ChatGPT</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
