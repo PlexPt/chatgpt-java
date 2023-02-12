@@ -12,6 +12,8 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得�
 
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
+## 2月12日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
+
 ## QQ交流群：627788462
 
 # [一些有趣的玩法](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
