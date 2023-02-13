@@ -28,6 +28,8 @@ public class Chatbot {
     private String parentId;
     private Map<String, String> headers = new HashMap<>();
 
+    private String host = "https://chat.openai.com";
+
     private String conversationIdPrev;
     private String parentIdPrev;
 
@@ -91,7 +93,7 @@ public class Chatbot {
 
 
     Map<String, Object> getChatStream(Map<String, Object> data) {
-        String url = "https://chat.openai.com/backend-api/conversation";
+        String url = host + "/backend-api/conversation";
 
         String body = HttpUtil.createPost(url)
                 .headerMap(headers, true)
@@ -157,7 +159,7 @@ public class Chatbot {
         // Set proxies
         setupProxy(session);
 
-        HttpResponse response = session.post2("https://chat.openai.com/backend-api/conversation",
+        HttpResponse response = session.post2(host + "/backend-api/conversation",
                 data);
         String body = response.body();
 
@@ -266,7 +268,7 @@ public class Chatbot {
         map.put("cookie", cookiesString);
         map.put("Cookie", cookiesString);
         session.setHeaders(map);
-        String urlSession = "https://chat.openai.com/api/auth/session";
+        String urlSession = host + "/api/auth/session";
         HttpResponse response = session.get2(urlSession);
 
         if (response.getStatus() != 200) {
@@ -275,8 +277,10 @@ public class Chatbot {
             System.err.println("token: " + sessionToken);
             System.err.println("userAgent: " + userAgent);
 
-            System.err.println("请检查以上参数是否正确，是否过期。并且获取以上参数的浏览器要和本程序在同一IP地址" );
-            System.err.println("Please check whether the above parameters are correct or expired. And the browser that obtains the above parameters must be at the same IP address as this program" );
+            System.err.println("请检查以上参数是否正确，是否过期。并且获取以上参数的浏览器要和本程序在同一IP地址");
+            System.err.println("Please check whether the above parameters are correct or expired." +
+                    " And the browser that obtains the above parameters must be at the same IP " +
+                    "address as this program");
 
             return;
         }
