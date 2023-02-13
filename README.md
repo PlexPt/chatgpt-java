@@ -76,10 +76,14 @@ gradle
 implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.2.0'
 ```
 
+启动https://github.com/acheong08/ChatGPT-Proxy
+记住地址proxyaddr
 
 然后
 ```
   Chatbot chatbot = new Chatbot("sessionToken","cf_clearance","user-agent");
+  chatbot.setHost("http://proxyaddr:5000");
+
   Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
   System.out.println(chatResponse.get("message"));
 ```
