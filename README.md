@@ -14,6 +14,8 @@ OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得�
 
 ## 2月12日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
 
+#### 项目合作洽谈请联系微信 plexpt（在微信里自行搜索并添加好友，请注明来意，如有关于仓库问题需讨论请参考下文入群讨论，不要加此微信）。
+
 ## QQ交流群：627788462
 
 # [一些有趣的玩法](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
