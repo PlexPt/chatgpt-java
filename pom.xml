@@ -90,7 +90,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
-            <version>5.8.10</version>
+            <version>5.8.12</version>
         </dependency>
 
     </dependencies>
