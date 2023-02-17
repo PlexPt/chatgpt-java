@@ -1,18 +1,33 @@
 
 <h1 style="text-align: center; color: hotpink; -webkit-animation: rainbow 5s infinite; -moz-animation: rainbow 5s infinite; -o-animation: rainbow 5s infinite; animation: rainbow 5s infinite;">ChatGPT Java Api</h1>
- 
+
 
 ![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.plexpt/chatgpt)](https://maven-badges.herokuapp.com/maven-central/com.github.plexpt/chatgpt)
 
 [English Doc](https://github.com/PlexPt/chatgpt-java/blob/main/README_en.md).
 
+OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 
-OpenAI ChatGPT 的逆向工程SDK。可扩展用于聊天机器人等。觉得不错请右上角Star
+可扩展用于聊天机器人等。觉得不错请右上角Star
 
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
-## 2月12日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
+## 2月17日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
+
+## PRO版
+
+高级版推出，但是 因为源码被盗卖，现暂不公开，需要的可购买
+
+|          | 开源免费版 |               PRO版               |           PRO MAX版           |
+| :------: | :--------: | :-------------------------------: | :---------------------------: |
+|   价格   |  开源免费  |               49.9                |             99.9              |
+|   地址   |   本仓库   |   https://fk.fq.mk/?cid=0&tid=3   | https://fk.fq.mk/?cid=0&tid=4 |
+|   使用   |  自己研究  |           详细教程+源码           |    详细教程+源码+1对1指导     |
+|   优势   |            | 可用，后续持续更新（2月17日更新） |           专业指导            |
+| 1对1指导 |     无     |                无                 |              有               |
+
+
 
 #### 项目合作洽谈请联系微信 plexpt（在微信里自行搜索并添加好友，请注明来意，如有关于仓库问题需讨论请参考下文入群讨论，不要加此微信）。
 
