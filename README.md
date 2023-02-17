@@ -14,7 +14,6 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
 ## 2月17日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
-## 需要成品帐号的可以在这购买 https://fk.fq.mk/
 
 ## PRO版
 
@@ -37,8 +36,6 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 # 另外请Star我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
 # 功能
-![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
-
 ![image](https://user-images.githubusercontent.com/15922823/206353660-47d99158-a664-4ade-b2f1-e2cc8ac68b74.png)
 
 ![image](https://user-images.githubusercontent.com/15922823/206615422-23c5e587-d29a-4f04-8d0d-f8dd7c19da37.png)
