@@ -29,6 +29,7 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 
 ## API版
 API版极稳定，基于Java8 + springboot
+
 实例站点https://javachat.plexpt.com/
 
 #### 项目合作洽谈请联系微信 plexpt（在微信里自行搜索并添加好友，请注明来意，如有关于仓库问题需讨论请参考下文入群讨论，不要加此微信）。
