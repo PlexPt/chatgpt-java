@@ -34,7 +34,7 @@ API版极稳定，基于Java8 + springboot
 
 #### 项目合作洽谈请联系微信 plexpt（在微信里自行搜索并添加好友，请注明来意，如有关于仓库问题需讨论请参考下文入群讨论，不要加此微信）。
 
-## QQ交流群：627788462
+## QQ群：645132635
 
 # 另外请Star我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
