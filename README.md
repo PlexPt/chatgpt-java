@@ -13,7 +13,7 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
-## 2月17日更新，配合https://github.com/acheong08/ChatGPT-Proxy 亲测可使用
+## 2月21日更新，配合https://github.com/acheong08/ChatGPT-Proxy-V1 亲测可使用
 
 ## PRO版
 
