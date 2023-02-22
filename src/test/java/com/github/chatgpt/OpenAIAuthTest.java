@@ -1,8 +1,10 @@
 package com.github.chatgpt;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson2.JSON;
@@ -50,55 +52,8 @@ public class OpenAIAuthTest {
 
     @Test
     public void getConversation() {
-        ArrayList<String> parts = new ArrayList<>();
-        ArrayList<Message> messages = new ArrayList<>();
 
-        parts.add("Generate a poem about yourself");
-
-        Content content = Content.builder()
-                .content_type("text")
-                .parts(parts).build();
-
-        Message message = Message.builder()
-                .id(java.util.UUID.randomUUID().toString())
-                .role("user")
-                .content(content)
-                .build();
-
-        messages.add(message);
-
-        ConversationRequest conversationRequest = ConversationRequest.builder()
-                .action("next")
-                .messages(messages)
-                .conversation_id(null)
-                .parent_message_id(java.util.UUID.randomUUID().toString())
-                .model("text-davinci-002-render-sha")
-                .build();
-
-        ResponseBody result = chatGPTService.getConversation(conversationRequest);
-
-        try {
-            String body =  result.string();
-
-            Map<String, Object> chatData = new HashMap<>();
-            for (String s : body.split("\n")) {
-                if ((s == null) || "".equals(s)) {
-                    continue;
-                }
-                if (s.contains("data: [DONE]")) {
-                    continue;
-                }
-
-                String part = s.substring(5);
-                ConversationResponse emp = new ObjectMapper().readValue(part, ConversationResponse.class);
-                System.out.println(emp.getMessage().getContent().getParts());
-            }
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<ConversationResponse> result = chatGPTService.getNewConversation("Generate a short poem about yourself.");
+        System.out.println(result.get(result.size() - 1).getMessage().getContent().getParts().get(0).toString());
     }
-
-
 }

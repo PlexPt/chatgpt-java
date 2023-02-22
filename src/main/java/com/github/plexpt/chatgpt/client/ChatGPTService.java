@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.github.plexpt.chatgpt.api.conversation.Content;
 import com.github.plexpt.chatgpt.api.conversation.ConversationRequest;
 import com.github.plexpt.chatgpt.api.conversation.ConversationResponse;
+import com.github.plexpt.chatgpt.api.conversation.Message;
 import com.github.plexpt.chatgpt.api.conversations.ConversationsResponse;
 import com.github.plexpt.chatgpt.api.model.ModelResponse;
 import okhttp3.ConnectionPool;
@@ -18,9 +20,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.Body;
 
 import javax.net.ssl.*;
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static java.time.Duration.ofSeconds;
@@ -88,4 +95,52 @@ public class ChatGPTService {
         return conversationApi.getConversation(request).blockingGet();
     }
 
+    public List<ConversationResponse> getNewConversation(String inputMessage) {
+        ArrayList<ConversationResponse> finalResult = new ArrayList<>();
+        ArrayList<String> parts = new ArrayList<>();
+        ArrayList<Message> messages = new ArrayList<>();
+        try {
+            parts.add(inputMessage);
+
+            Content content = Content.builder()
+                    .content_type("text")
+                    .parts(parts).build();
+
+            Message message = Message.builder()
+                    .id(java.util.UUID.randomUUID().toString())
+                    .role("user")
+                    .content(content)
+                    .build();
+
+            messages.add(message);
+
+            ConversationRequest conversationRequest = ConversationRequest.builder()
+                    .action("next")
+                    .messages(messages)
+                    .conversation_id(null)
+                    .parent_message_id(java.util.UUID.randomUUID().toString())
+                    .model("text-davinci-002-render-sha")
+                    .build();
+
+            ResponseBody result =  getConversation(conversationRequest);
+            String body =  result.string();
+
+            for (String s : body.split("\n")) {
+                if ((s == null) || "".equals(s)) {
+                    continue;
+                }
+                if (s.contains("data: [DONE]")) {
+                    continue;
+                }
+
+                String part = s.substring(5);
+
+                finalResult.add( new ObjectMapper().readValue(part, ConversationResponse.class));
+            }
+
+            return finalResult;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
