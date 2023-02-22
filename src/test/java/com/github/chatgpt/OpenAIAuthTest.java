@@ -53,14 +53,14 @@ public class OpenAIAuthTest {
         ArrayList<String> parts = new ArrayList<>();
         ArrayList<Message> messages = new ArrayList<>();
 
-        parts.add("Hi There");
+        parts.add("Generate a poem about yourself");
 
         Content content = Content.builder()
                 .content_type("text")
                 .parts(parts).build();
 
         Message message = Message.builder()
-                .id("71d419a8-ab0a-4f76-b17c-13edeea8c087")
+                .id(java.util.UUID.randomUUID().toString())
                 .role("user")
                 .content(content)
                 .build();
@@ -71,7 +71,7 @@ public class OpenAIAuthTest {
                 .action("next")
                 .messages(messages)
                 .conversation_id(null)
-                .parent_message_id("55b6f907-1c3c-4111-9b15-df8ff71ab1ca")
+                .parent_message_id(java.util.UUID.randomUUID().toString())
                 .model("text-davinci-002-render-sha")
                 .build();
 

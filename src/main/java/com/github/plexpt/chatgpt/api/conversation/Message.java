@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Message {
     public String id;
+    public Author author;
     public String role;
     public Object user;
     public Object create_time;
