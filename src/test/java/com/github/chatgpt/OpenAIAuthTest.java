@@ -2,10 +2,7 @@ package com.github.chatgpt;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -51,9 +48,27 @@ public class OpenAIAuthTest {
     }
 
     @Test
-    public void getConversation() {
+    public void getNewConversation() {
 
-        List<ConversationResponse> result = chatGPTService.getNewConversation("Generate a short poem about yourself.");
-        System.out.println(result.get(result.size() - 1).getMessage().getContent().getParts().get(0).toString());
+        chatGPTService.getNewConversation("Hi");
+
+        Scanner scanner = new Scanner(System.in);
+        String s= scanner.nextLine();
+
+//        System.out.println(result.get(result.size() - 1).getMessage().getContent().getParts().get(0).toString());
+//
     }
+
+//    @Test
+//    public void getContinueConversation() {
+//
+//        List<ConversationResponse> result1 = chatGPTService.getContinueConversation("My Name is adam.", null, java.util.UUID.randomUUID().toString());
+//        System.out.println(result1.get(result1.size() - 1).getMessage().getContent().getParts().get(0).toString());
+//
+//        List<ConversationResponse> result2 = chatGPTService.getContinueConversation("What's my name?", result1.get(result1.size() - 1) .getConversation_id(), result1.get(result1.size() - 1).getMessage().getId());
+//        System.out.println(result2.get(result2.size() - 1).getMessage().getContent().getParts().get(0).toString());
+//
+//    }
+
+
 }

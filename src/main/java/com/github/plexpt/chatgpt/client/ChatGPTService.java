@@ -10,9 +10,18 @@ import com.github.plexpt.chatgpt.api.conversation.ConversationResponse;
 import com.github.plexpt.chatgpt.api.conversation.Message;
 import com.github.plexpt.chatgpt.api.conversations.ConversationsResponse;
 import com.github.plexpt.chatgpt.api.model.ModelResponse;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.BufferedSource;
+import org.reactivestreams.Subscriber;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -21,6 +30,7 @@ import retrofit2.http.Body;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
@@ -68,6 +78,7 @@ public class ChatGPTService {
                 .baseUrl(baseUrl)
                 .client(client)
                 .addConverterFactory(JacksonConverterFactory.create(mapper))
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
@@ -91,56 +102,135 @@ public class ChatGPTService {
         return chatGPTApi.getConversations(offset, limit).blockingGet();
     }
 
-    public ResponseBody getConversation(ConversationRequest request) {
-        return conversationApi.getConversation(request).blockingGet();
-    }
+//    public Observable<ResponseBody> getConversation(ConversationRequest request) {
+//        return conversationApi.getConversation(request).blockingGet();
+//    }
 
-    public List<ConversationResponse> getNewConversation(String inputMessage) {
+    public void getNewConversation(String inputMessage) {
         ArrayList<ConversationResponse> finalResult = new ArrayList<>();
         ArrayList<String> parts = new ArrayList<>();
         ArrayList<Message> messages = new ArrayList<>();
-        try {
-            parts.add(inputMessage);
 
-            Content content = Content.builder()
-                    .content_type("text")
-                    .parts(parts).build();
+        parts.add(inputMessage);
 
-            Message message = Message.builder()
-                    .id(java.util.UUID.randomUUID().toString())
-                    .role("user")
-                    .content(content)
-                    .build();
+        Content content = Content.builder()
+                .content_type("text")
+                .parts(parts).build();
 
-            messages.add(message);
+        Message message = Message.builder()
+                .id(java.util.UUID.randomUUID().toString())
+                .role("user")
+                .content(content)
+                .build();
 
-            ConversationRequest conversationRequest = ConversationRequest.builder()
-                    .action("next")
-                    .messages(messages)
-                    .conversation_id(null)
-                    .parent_message_id(java.util.UUID.randomUUID().toString())
-                    .model("text-davinci-002-render-sha")
-                    .build();
+        messages.add(message);
 
-            ResponseBody result =  getConversation(conversationRequest);
-            String body =  result.string();
+        ConversationRequest conversationRequest = ConversationRequest.builder()
+                .action("next")
+                .messages(messages)
+                .conversation_id(null)
+                .parent_message_id(java.util.UUID.randomUUID().toString())
+                .model("text-davinci-002-render-sha")
+                .build();
 
-            for (String s : body.split("\n")) {
-                if ((s == null) || "".equals(s)) {
-                    continue;
-                }
-                if (s.contains("data: [DONE]")) {
-                    continue;
-                }
+        conversationApi.getConversation(conversationRequest)
+                .throttleFirst(800, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
 
-                String part = s.substring(5);
+                .flatMap(responseBody -> event(responseBody.source()))
+                .subscribe(System.out::println);
 
-                finalResult.add( new ObjectMapper().readValue(part, ConversationResponse.class));
-            }
-
-            return finalResult;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
+
+    /*
+    Handle BufferedSource
+    https://stackoverflow.com/questions/36603368/android-retrofit-2-rxjava-listen-to-endless-stream
+    * */
+
+    public Observable<ConversationResponse> event(BufferedSource source)
+    {
+        return Observable.create(observableEmitter -> {
+            boolean isCompleted = false;
+            String data = source.readUtf8Line();
+            try {
+                while (!source.exhausted()) {
+                    data = source.readUtf8Line();
+                    // Parse json here
+                    System.out.println(data);
+                    if ((data == null) || "".equals(data)) {
+                        continue;
+                    }
+
+                    if (data.contains("data: [DONE]")) {
+                        continue;
+                    }
+
+                    String part = data.substring(5);
+                    observableEmitter.onNext(new ObjectMapper().readValue(part, ConversationResponse.class));
+                }
+            } catch (IOException e) {
+                if (e.getMessage().equals("data: [DONE]")) {
+                    String message = data;
+                    isCompleted = true;
+                    observableEmitter.onComplete();
+                }
+            }
+            //if response end we get here
+            if (!isCompleted) {
+                observableEmitter.onComplete();
+            }
+        });
+    }
+
+//
+//    public List<ConversationResponse> getContinueConversation(String inputMessage, String conversationId, String parentId) {
+//        ArrayList<ConversationResponse> finalResult = new ArrayList<>();
+//        ArrayList<String> parts = new ArrayList<>();
+//        ArrayList<Message> messages = new ArrayList<>();
+//        try {
+//            parts.add(inputMessage);
+//
+//            Content content = Content.builder()
+//                    .content_type("text")
+//                    .parts(parts).build();
+//
+//            Message message = Message.builder()
+//                    .id(java.util.UUID.randomUUID().toString())
+//                    .role("user")
+//                    .content(content)
+//                    .build();
+//
+//            messages.add(message);
+//
+//            ConversationRequest conversationRequest = ConversationRequest.builder()
+//                    .action("next")
+//                    .messages(messages)
+//                    .conversation_id(conversationId)
+//                    .parent_message_id(parentId)
+//                    .model("text-davinci-002-render-sha")
+//                    .build();
+//
+//            ResponseBody result =  getConversation(conversationRequest);
+//            String body =  result.string();
+//
+//            for (String s : body.split("\n")) {
+//                if ((s == null) || "".equals(s)) {
+//                    continue;
+//                }
+//                if (s.contains("data: [DONE]")) {
+//                    continue;
+//                }
+//
+//                String part = s.substring(5);
+//
+//                finalResult.add( new ObjectMapper().readValue(part, ConversationResponse.class));
+//            }
+//
+//            return finalResult;
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
 }
