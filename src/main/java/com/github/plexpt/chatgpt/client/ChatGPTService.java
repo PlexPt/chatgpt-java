@@ -11,33 +11,21 @@ import com.github.plexpt.chatgpt.api.conversation.Message;
 import com.github.plexpt.chatgpt.api.conversations.ConversationsResponse;
 import com.github.plexpt.chatgpt.api.model.ModelResponse;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
-import org.reactivestreams.Subscriber;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.http.Body;
 
-import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static java.time.Duration.ofSeconds;
@@ -102,12 +90,7 @@ public class ChatGPTService {
         return chatGPTApi.getConversations(offset, limit).blockingGet();
     }
 
-//    public Observable<ResponseBody> getConversation(ConversationRequest request) {
-//        return conversationApi.getConversation(request).blockingGet();
-//    }
-
-    public void getNewConversation(String inputMessage) {
-        ArrayList<ConversationResponse> finalResult = new ArrayList<>();
+    public ConversationRequest parseNewConversation(String inputMessage) {
         ArrayList<String> parts = new ArrayList<>();
         ArrayList<Message> messages = new ArrayList<>();
 
@@ -125,7 +108,7 @@ public class ChatGPTService {
 
         messages.add(message);
 
-        ConversationRequest conversationRequest = ConversationRequest.builder()
+        return ConversationRequest.builder()
                 .action("next")
                 .messages(messages)
                 .conversation_id(null)
@@ -133,13 +116,41 @@ public class ChatGPTService {
                 .model("text-davinci-002-render-sha")
                 .build();
 
-        conversationApi.getConversation(conversationRequest)
-                .throttleFirst(800, TimeUnit.MILLISECONDS)
+    }
+
+    public Observable<ConversationResponse> getNewStreamConversation(String inputMessage) {
+
+        return conversationApi.getConversationStream(parseNewConversation(inputMessage))
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
+                .flatMap(responseBody -> event(responseBody.source()));
+    }
 
-                .flatMap(responseBody -> event(responseBody.source()))
-                .subscribe(System.out::println);
+    public List<ConversationResponse> getNewConversation(String inputMessage) {
+        ArrayList<ConversationResponse> conversationResponseList = new ArrayList<>();
+
+        ResponseBody responseBody = conversationApi.getConversation(parseNewConversation(inputMessage)).blockingGet();
+
+        try {
+            String body = responseBody.string();
+            for (String s :body.split("\n")) {
+                if ((s == null) || "".equals(s)) {
+                    continue;
+                }
+                if (s.contains("data: [DONE]")) {
+                    continue;
+                }
+
+                String part = s.substring(5);
+
+                conversationResponseList.add(new ObjectMapper().readValue(part, ConversationResponse.class));
+            }
+
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        return conversationResponseList;
 
     }
 
@@ -156,14 +167,15 @@ public class ChatGPTService {
             try {
                 while (!source.exhausted()) {
                     data = source.readUtf8Line();
-                    // Parse json here
-                    System.out.println(data);
+
                     if ((data == null) || "".equals(data)) {
                         continue;
                     }
 
                     if (data.contains("data: [DONE]")) {
-                        continue;
+                        isCompleted = true;
+                        observableEmitter.onComplete();
+                        break;
                     }
 
                     String part = data.substring(5);
@@ -171,9 +183,10 @@ public class ChatGPTService {
                 }
             } catch (IOException e) {
                 if (e.getMessage().equals("data: [DONE]")) {
-                    String message = data;
                     isCompleted = true;
                     observableEmitter.onComplete();
+                } else {
+                    throw new UncheckedIOException(e);
                 }
             }
             //if response end we get here
@@ -182,55 +195,4 @@ public class ChatGPTService {
             }
         });
     }
-
-//
-//    public List<ConversationResponse> getContinueConversation(String inputMessage, String conversationId, String parentId) {
-//        ArrayList<ConversationResponse> finalResult = new ArrayList<>();
-//        ArrayList<String> parts = new ArrayList<>();
-//        ArrayList<Message> messages = new ArrayList<>();
-//        try {
-//            parts.add(inputMessage);
-//
-//            Content content = Content.builder()
-//                    .content_type("text")
-//                    .parts(parts).build();
-//
-//            Message message = Message.builder()
-//                    .id(java.util.UUID.randomUUID().toString())
-//                    .role("user")
-//                    .content(content)
-//                    .build();
-//
-//            messages.add(message);
-//
-//            ConversationRequest conversationRequest = ConversationRequest.builder()
-//                    .action("next")
-//                    .messages(messages)
-//                    .conversation_id(conversationId)
-//                    .parent_message_id(parentId)
-//                    .model("text-davinci-002-render-sha")
-//                    .build();
-//
-//            ResponseBody result =  getConversation(conversationRequest);
-//            String body =  result.string();
-//
-//            for (String s : body.split("\n")) {
-//                if ((s == null) || "".equals(s)) {
-//                    continue;
-//                }
-//                if (s.contains("data: [DONE]")) {
-//                    continue;
-//                }
-//
-//                String part = s.substring(5);
-//
-//                finalResult.add( new ObjectMapper().readValue(part, ConversationResponse.class));
-//            }
-//
-//            return finalResult;
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
 }

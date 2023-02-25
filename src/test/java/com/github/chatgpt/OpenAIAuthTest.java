@@ -3,6 +3,7 @@ package com.github.chatgpt;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -16,6 +17,15 @@ import com.github.plexpt.chatgpt.api.conversation.Message;
 import com.github.plexpt.chatgpt.api.conversations.ConversationsResponse;
 import com.github.plexpt.chatgpt.api.model.ModelResponse;
 import com.github.plexpt.chatgpt.client.ChatGPTService;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.TestScheduler;
+import io.reactivex.subscribers.TestSubscriber;
 import okhttp3.ResponseBody;
 import org.junit.Test;
 
@@ -48,27 +58,27 @@ public class OpenAIAuthTest {
     }
 
     @Test
-    public void getNewConversation() {
+    public void getNewStreamConversation() throws InterruptedException {
 
-        chatGPTService.getNewConversation("Hi");
+        TestObserver<ConversationResponse> testObserver = new TestObserver<>();
+        Observable<ConversationResponse> observer =
+                chatGPTService.getNewStreamConversation("Hi");
 
-        Scanner scanner = new Scanner(System.in);
-        String s= scanner.nextLine();
+        observer.subscribe(testObserver);
+        testObserver.assertNotComplete();
+        testObserver.assertNoValues();
 
-//        System.out.println(result.get(result.size() - 1).getMessage().getContent().getParts().get(0).toString());
-//
+        // If more than 15 second, test is failed
+        testObserver.await(15, TimeUnit.SECONDS);
+
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
+
     }
-
-//    @Test
-//    public void getContinueConversation() {
-//
-//        List<ConversationResponse> result1 = chatGPTService.getContinueConversation("My Name is adam.", null, java.util.UUID.randomUUID().toString());
-//        System.out.println(result1.get(result1.size() - 1).getMessage().getContent().getParts().get(0).toString());
-//
-//        List<ConversationResponse> result2 = chatGPTService.getContinueConversation("What's my name?", result1.get(result1.size() - 1) .getConversation_id(), result1.get(result1.size() - 1).getMessage().getId());
-//        System.out.println(result2.get(result2.size() - 1).getMessage().getContent().getParts().get(0).toString());
-//
-//    }
-
+    @Test
+    public void getNewConversation() {
+        List<ConversationResponse> result = chatGPTService.getNewConversation("Hi");
+        assertFalse(result.isEmpty());
+    }
 
 }

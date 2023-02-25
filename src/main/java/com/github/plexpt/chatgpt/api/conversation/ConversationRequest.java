@@ -1,5 +1,6 @@
 package com.github.plexpt.chatgpt.api.conversation;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConversationRequest {
     public String action;
     public ArrayList<Message> messages;

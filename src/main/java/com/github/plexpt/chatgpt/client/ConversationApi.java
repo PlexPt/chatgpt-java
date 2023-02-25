@@ -11,7 +11,12 @@ import retrofit2.http.Streaming;
 
 public interface ConversationApi {
 
+
+    @POST("api/conversation")
+    Single<ResponseBody> getConversation(@Body ConversationRequest request);
     @Streaming
     @POST("api/conversation")
-    Observable<ResponseBody> getConversation(@Body ConversationRequest request);
+    Observable<ResponseBody> getConversationStream(@Body ConversationRequest request);
+
+
 }
