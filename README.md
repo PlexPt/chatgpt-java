@@ -24,7 +24,7 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 |   价格   |    开源免费    |                 49.9                  |                 99.9                  |                              98                              |
 |   地址   |     本仓库     | [购买](https://fk.fq.mk?code=YT0yJmI9Nw%3D%3D) | [购买](https://fk.fq.mk?code=YT0yJmI9OA%3D%3D) | [购买](https://fk.fq.mk?code=YT0yJmI9Ng%3D%3D)    [演示站](https://javachat.plexpt.com) |
 |   使用   | 需要自行过CF盾 |             详细教程+源码             |        详细教程+源码+1对1指导         |                          教程+源码                           |
-|   优势   |                |   可用，后续持续更新（2月23日更新）   |        专业指导（2月23日更新）        |                         有前端，稳定                         |
+|   优势   |                |   可用，后续持续更新（2月28日更新）   |        专业指导（2月28日更新）        |                         有前端，稳定                         |
 | 1对1指导 |       无       |                  无                   |                  有                   |                              无                              |
 | 登录方式 |  sessionToken  |        sessionToken、邮箱密码         |        sessionToken、邮箱密码         |                            APIKEY                            |
 | 使用方式 |     阻塞式     |              阻塞式+流式              |              阻塞式+流式              |                             在线                             |
