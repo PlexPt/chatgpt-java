@@ -31,7 +31,7 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 |   前端   |       无       |                  无                   |                  无                   |                           有（H5）                           |
 
 ## API版
-API版极稳定，基于Java8 + springboot
+API版极稳定，基于Java 17 + springboot
 
 实例站点https://javachat.plexpt.com/
 
