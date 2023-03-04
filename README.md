@@ -15,7 +15,8 @@ OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 
 ## 3月4日更新，推荐API版亲测可使用
 
-API版极稳定，基于Java 8 + springboot，带前端
+API版极稳定，基于ChatGPT 3.5 + Java 8 + springboot，带前端.
+
 支持流式对话，极速响应。支持上下文。
 因为源码被盗卖，现暂不公开。如需使用，请购买。
 
