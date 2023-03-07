@@ -14,6 +14,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.val;
 import okhttp3.Response;
 
 @Data
@@ -101,44 +102,7 @@ public class Chatbot {
                 .execute()
                 .body();
 
-        String message = "";
-        Map<String, Object> chatData = new HashMap<>();
-        for (String s : body.split("\n")) {
-            if ((s == null) || "".equals(s)) {
-                continue;
-            }
-            if (s.contains("data: [DONE]")) {
-                continue;
-            }
-
-            String part = s.substring(5);
-            JSONObject lineData = JSON.parseObject(part);
-
-            try {
-
-                JSONArray jsonArray = lineData.getJSONObject("message")
-                        .getJSONObject("content")
-                        .getJSONArray("parts");
-
-                if (jsonArray.size() == 0) {
-                    continue;
-                }
-                message = jsonArray.getString(0);
-
-                conversationId = lineData.getString("conversation_id");
-                parentId = (lineData.getJSONObject("message")).getString("id");
-
-                chatData.put("message", message);
-                chatData.put("conversation_id", conversationId);
-                chatData.put("parent_id", parentId);
-            } catch (Exception e) {
-                System.out.println("getChatStream Exception: " + part);
-                //  e.printStackTrace();
-                continue;
-            }
-
-        }
-        return chatData;
+        return getChatData(body);
 
     }
 
@@ -161,48 +125,56 @@ public class Chatbot {
 
         HttpResponse response = session.post2(host + "/backend-api/conversation",
                 data);
-        String body = response.body();
 
-        String errorDesc = "";
+        return getChatData(response.body());
+    }
 
-
-        String message = "";
+    public Map<String, Object> getChatData(String body) {
         Map<String, Object> chatData = new HashMap<>();
-        for (String s : body.split("\n")) {
-            if ((s == null) || "".equals(s)) {
-                continue;
-            }
-            if (s.contains("data: [DONE]")) {
-                continue;
-            }
 
-            String part = s.substring(5);
+        String[] dataArray = body.split("\n");
+        if (dataArray.length == 0) {
+            return chatData;
+        }else {
+            // 从后往前解析，找到最后一条消息即完整回复，避免出现回复较长时响应过慢的情况
+            for (int i = dataArray.length -1; i >= 0; i--){
+                String s = dataArray[i];
 
-            try {
-                JSONObject lineData = JSON.parseObject(part);
-
-                JSONArray jsonArray = lineData.getJSONObject("message")
-                        .getJSONObject("content")
-                        .getJSONArray("parts");
-
-                if (jsonArray.size() == 0) {
+                if ((s == null) || "".equals(s)) {
                     continue;
                 }
-                message = jsonArray.getString(0);
+                if (s.contains("data: [DONE]")) {
+                    continue;
+                }
 
-                conversationId = lineData.getString("conversation_id");
-                parentId = (lineData.getJSONObject("message")).getString("id");
+                String part = s.substring(5);
 
-                chatData.put("message", message);
-                chatData.put("conversation_id", conversationId);
-                chatData.put("parent_id", parentId);
-            } catch (Exception e) {
-                System.out.println("getChatStream Exception: " + part);
-                //  e.printStackTrace();
-                continue;
+                try {
+                    JSONObject lineData = JSON.parseObject(part);
+
+                    JSONArray jsonArray = lineData.getJSONObject("message")
+                            .getJSONObject("content")
+                            .getJSONArray("parts");
+
+                    if (jsonArray.size() == 0) {
+                        break;
+                    }
+
+                    conversationId = lineData.getString("conversation_id");
+                    parentId = (lineData.getJSONObject("message")).getString("id");
+
+                    chatData.put("message", jsonArray.getString(0));
+                    chatData.put("conversation_id", conversationId);
+                    chatData.put("parent_id", parentId);
+                } catch (Exception e) {
+                    System.out.println("getChatStream Exception: " + part);
+                    //  e.printStackTrace();
+                }
+                break;
             }
 
         }
+
         return chatData;
     }
 
