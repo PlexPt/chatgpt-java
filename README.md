@@ -136,7 +136,7 @@ https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 
 # 云服务器
 点击👇🏻传送链接，购买云服务器：
-- [阿里云服务器](https://www.aliyun.com/minisite/goods?userCode=9h1yheau)
+- [阿里云服务器](https://reurl.cc/NqQXyx)
 - [**【腾讯云】云服务器等爆品抢先购，低至4.2元/月**](https://url.cn/B7m0OYnG)
 
 
