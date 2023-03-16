@@ -134,21 +134,11 @@ https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 3. 运行 run.bat
 4. 注意：输入之后需要回车两次
 
-# Awesome ChatGPT
-[My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
+# 云服务器
+点击👇🏻传送链接，购买云服务器：
+1. [**阿里云服务器**](https://www.aliyun.com/minisite/goods?userCode=9h1yheau)
+2. [**【腾讯云】云服务器等爆品抢先购，低至4.2元/月**](https://url.cn/B7m0OYnG)
 
-If you have a cool project you want added to the list, open an issue.
-
-# Disclaimers
-这不是官方的 OpenAI 产品。这是一个个人项目，与 OpenAI 没有任何关联。
-
-### This is a library and not intended for direct CLI use
-CLI 功能仅用于演示和测试。不支持验证码（对于不干净的 IP 地址）
-
-### CLI use
-[@rawandahmad698](https://github.com/rawandahmad698) has a much better CLI tool at
-
-**[PyChatGPT](https://github.com/rawandahmad698/PyChatGPT)** supports captcha!
 
 # Star History
 
