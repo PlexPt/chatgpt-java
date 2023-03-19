@@ -4,12 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.plexpt.chatgpt.entity.chat.ChatChoice;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -18,52 +12,56 @@ import okhttp3.Response;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+
 /**
- * sse
- *
- * @author plexpt
+ * EventSource listener for chat-related events.
  */
 @Slf4j
 public abstract class AbstractStreamListener extends EventSourceListener {
 
-    protected String last = "";
+    protected String lastMessage = "";
     @Setter
     @Getter
-    protected Consumer<String> onComplate = s -> {
-
-    };
-
+    protected Consumer<String> onComplete = message -> {};
 
     /**
-     * 收到消息 单个字
+     * Called when a new message is received.
+     * 
+     * @param message the new message
      */
-    public abstract void onMsg(String msg);
-
+    public abstract void onMessageReceived(String message);
 
     /**
-     * 出错了
+     * Called when an error occurs.
+     * 
+     * @param throwable the throwable that caused the error
+     * @param response the response associated with the error, if any
      */
-    public abstract void onError(Throwable t, String response);
+    public abstract void onError(Throwable throwable, String response);
 
     @Override
     public void onOpen(EventSource eventSource, Response response) {
+        // do nothing
     }
 
     @Override
     public void onClosed(EventSource eventSource) {
+        // do nothing
     }
 
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         if (data.equals("[DONE]")) {
-            log.info("回答完成：{}", last);
-            onComplate.accept(last);
+            log.info("Chat session completed: {}", lastMessage);
+            onComplete.accept(lastMessage);
             return;
         }
 
-        ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
-        // 读取Json
-        List<ChatChoice> choices = response.getChoices();
+        ChatCompletionResponse completionResponse = JSON.parseObject(data, ChatCompletionResponse.class);
+        List<ChatChoice> choices = completionResponse.getChoices();
         if (choices == null || choices.isEmpty()) {
             return;
         }
@@ -71,40 +69,34 @@ public abstract class AbstractStreamListener extends EventSourceListener {
         String text = delta.getContent();
 
         if (text != null) {
-            last += text;
-
-            onMsg(text);
-
+            lastMessage += text;
+            onMessageReceived(text);
         }
-
     }
-
 
     @SneakyThrows
     @Override
-    public void onFailure(EventSource eventSource, Throwable t, Response response) {
-
+    public void onFailure(EventSource eventSource, Throwable throwable, Response response) {
         try {
-            log.error("stream连接异常:{}", t);
+            log.error("Stream connection error: {}", throwable);
 
-            String res = "";
+            String responseText = "";
 
             if (Objects.nonNull(response)) {
-                res = response.body().string();
+                responseText = response.body().string();
             }
 
-            log.error("response：{}", res);
+            log.error("Response: {}", responseText);
 
-            String seq = "Your access was terminated due to violation of our policies";
+            String forbiddenText = "Your access was terminated due to violation of our policies";
 
-            if (StrUtil.contains(res, seq)) {
-                log.error("检测到号被封了");
+            if (responseText.contains(forbiddenText)) {
+                log.error("Chat session has been terminated due to policy violation");
             }
 
-            onError(t, res);
-
+            onError(throwable, responseText);
         } catch (Exception e) {
-
+            // do nothing
         } finally {
             eventSource.cancel();
         }
