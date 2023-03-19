@@ -3,13 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.plexpt</groupId>
+    <groupId>com.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.2.0</version>
-    <name>chatgpt-java</name>
-    <description>chatgpt-java</description>
-
-    <url>https://github.com/PlexPt/chatgpt-java</url>
+    <version>4.0.0</version>
+    <name>chatgpt</name>
+    <description>ChatGPT4.0、 ChatGPT Java SDK.</description>
+    <url>https://chat.plexpt.com</url>
 
     <issueManagement>
         <system>Github Issue</system>
@@ -29,11 +28,13 @@
         </developer>
     </developers>
 
+
     <scm>
-        <connection>scm:git@github.com:plexpt/pt-tooki.git</connection>
-        <developerConnection>scm:git@github.com:plexpt/pt-tooki.git</developerConnection>
-        <url>git@github.com:plexpt/pt-tooki.git</url>
+        <connection>scm:git@github.com:plexpt/chatgpt-java.git</connection>
+        <developerConnection>scm:git@github.com:plexpt/chatgpt-java.git</developerConnection>
+        <url>git@github.com:plexpt/chatgpt-java.git</url>
     </scm>
+
 
     <properties>
         <java.version>1.8</java.version>
@@ -45,54 +46,101 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!-- versions -->
         <compile.version>8</compile.version>
+
+        <retrofit2.version>2.9.0</retrofit2.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <logback.version>1.4.6</logback.version>
     </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.26</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.25</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>net.dreamlu</groupId>
-            <artifactId>mica-http</artifactId>
-            <version>2.7.6</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.code.gson</groupId>-->
-        <!--            <artifactId>gson</artifactId>-->
-        <!--            <version>2.9.1</version>-->
-        <!--        </dependency>-->
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-            <version>2.0.23</version>
-        </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.squareup.okhttp3</groupId>-->
-        <!--            <artifactId>okhttp</artifactId>-->
-        <!--            <version>3.14.9</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.guava</groupId>-->
-        <!--            <artifactId>guava</artifactId>-->
-        <!--            <version>31.1-jre</version>-->
-        <!--        </dependency>-->
+
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>5.8.12</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
+            <artifactId>hutool-all</artifactId>
             <version>5.8.12</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>2.0.23</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-sse</artifactId>
+            <version>3.14.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>3.14.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>${retrofit2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-jackson</artifactId>
+            <version>${retrofit2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>adapter-rxjava2</artifactId>
+            <version>${retrofit2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- 下面这个标签里的不能改 -->
@@ -183,7 +231,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.plexpt.chatgpt.ChatGTP</mainClass>
+                            <mainClass>com.github.plexpt.chatgpt.ChatGPT</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

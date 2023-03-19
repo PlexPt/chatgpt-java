@@ -1,126 +1,250 @@
-
-<h1 style="text-align: center; color: hotpink; -webkit-animation: rainbow 5s infinite; -moz-animation: rainbow 5s infinite; -o-animation: rainbow 5s infinite; animation: rainbow 5s infinite;">ChatGPT Java Api</h1>
-
+<h1 style="text-align: center; color: hotpink; -webkit-animation: rainbow 5s infinite; -moz-animation: rainbow 5s infinite; -o-animation: rainbow 5s infinite; animation: rainbow 5s infinite;">ChatGPT Java API</h1>
 
 ![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.plexpt/chatgpt)](https://maven-badges.herokuapp.com/maven-central/com.github.plexpt/chatgpt)
 
 [English Doc](https://github.com/PlexPt/chatgpt-java/blob/main/README_en.md).
 
-OpenAI ChatGPT 的逆向工程SDK。直接使用网页最新ChatGPT。
 
-可扩展用于聊天机器人等。觉得不错请右上角Star
+OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
 
-## 3月4日更新，推荐API版亲测可使用
-
-API版极稳定，基于ChatGPT 3.5 + Java 8 + springboot，带前端.
-
-支持流式对话，极速响应。支持上下文。
-因为源码被盗卖，现暂不公开。如需使用，请购买。
-
-体验站点（需要输入key） https://javachat.plexpt.com/
-
-## PRO版
-
-因为源码被盗卖，现暂不公开。如需使用，请购买。
-
-|          |   开源免费版   |                 PRO版                 |               PRO MAX版               |                            API版                             |
-| :------: | :------------: | :-----------------------------------: | :-----------------------------------: | :----------------------------------------------------------: |
-|   价格   |    开源免费    |                 299                  |                 399                  |                              170                              |
-|   地址   |     本仓库     | [购买](https://fk.fq.mk/?code=YT0yJmI9Nw%3D%3D) | [购买](https://fk.fq.mk/?code=YT0yJmI9OA%3D%3D) | [购买](https://fk.fq.mk/?code=YT0yJmI9Ng%3D%3D)    [演示站](https://javachat.plexpt.com) |
-|   使用   | 需要自行过CF盾 |             详细教程+源码             |        详细教程+源码+1对1指导         |                          教程+源码                           |
-|   优势   |                |   可用，后续持续更新（2月28日更新）   |        专业指导（2月28日更新）        |                         有前端，稳定                         |
-| 1对1指导 |       无       |                  无                   |                  有                   |                              无                              |
-| 登录方式 |  sessionToken  |        sessionToken、邮箱密码         |        sessionToken、邮箱密码         |                            APIKEY                            |
-| 使用方式 |     阻塞式     |              阻塞式+流式              |              阻塞式+流式              |                             在线                             |
-|   前端   |       无       |                  无                   |                  无                   |                           有（H5 SSE）                           |
 
 
 #### 项目合作洽谈请联系微信 plexpt（在微信里自行搜索并添加好友，请注明来意，如有关于仓库问题需讨论请参考下文入群讨论，不要加此微信）。
 
-## QQ群：645132635
+### QQ群：645132635
 
-# 另外请Star我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
+### 购买**ChatGPT**成品独享帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9Mg%3D%3D)
 
-# 功能
+# 问题表
+
+[共约67万个问题，欢迎拿去炼丹](https://github.com/PlexPt/awesome-chatgpt-prompts-zh/blob/main/question/README.md)
+
+
+
+点击👇🏻传送链接，购买云服务器炼丹：
+
+- [**阿里云服务器**](https://reurl.cc/NqQXyx)
+- [**【腾讯云】云服务器，低至4.2元/月**](https://url.cn/B7m0OYnG)
+
+# 功能特性
+
+|    功能     |   特性   |
+| :---------: | :------: |
+|   GPT 3.5   |   支持   |
+|   GPT 4.0   |   支持   |
+| GPT 4.0-32k |   支持   |
+|  流式对话   |   支持   |
+| 阻塞式对话  |   支持   |
+|    前端     |    无    |
+|   上下文    | 即将支持 |
+|  计算Token  | 即将支持 |
+|  多KEY轮询  |   支持   |
+|    代理     |   支持   |
+|  反向代理   |   支持   |
+
+
+
+# PRO版
+
+如需使用，请购买。
+
+|          | 开源免费版 |                            PRO版                             |                    PRO MAX版                    |
+| :------: | :--------: | :----------------------------------------------------------: | :---------------------------------------------: |
+|   价格   |  开源免费  |                             299                              |                       399                       |
+|   简介   |            |                     开源版+前端+1对1指导                     |            网页逆向版+前端+1对1指导             |
+|   地址   |   本仓库   | [购买](https://fk.fq.mk/?code=YT0yJmI9Nw%3D%3D)  [演示站](https://javachat.plexpt.com) | [购买](https://fk.fq.mk/?code=YT0yJmI9OA%3D%3D) |
+| GPT 4.0  |    支持    |                             支持                             |                      支持                       |
+|   优势   |    免费    |                   有前端，稳定，+专业指导                    |             满血网页逆向版+专业指导             |
+| 1对1指导 |     无     |                              有                              |                       有                        |
+| 登录方式 |   APIKEY   |                            APIKEY                            |             sessionToken、邮箱密码              |
+| 使用方式 |  Java API  |                       Java API + 在线                        |                    Java API                     |
+|   前端   |     无     |                      有（HTML5 + SSE）                       |                       无                        |
+
+
+
 ![image](https://user-images.githubusercontent.com/15922823/206353660-47d99158-a664-4ade-b2f1-e2cc8ac68b74.png)
 
 ![image](https://user-images.githubusercontent.com/15922823/206615422-23c5e587-d29a-4f04-8d0d-f8dd7c19da37.png)
 
-可以写代码，写小说，写作文、演讲稿、工作报告、读书笔记、合同等
-
-自白：
-> 我是一个训练有素的大型语言模型，可以帮助你回答各种问题，比如关于政治、历史、科学、技术、艺术等方面的问题。我可以帮助你理解一些概念，并为你提供有价值的信息和见解。你可以尝试提出一些问题，看看我能不能帮到你。
-> 除了回答问题，我还可以帮助你写一些文章或小说。你只需要给我一些提示和背景信息，我就可以根据你提供的信息来为你写一篇文章或小说。我会尽力为你写出一篇优秀的文章，帮助你实现你的写作目标。
-> 除了回答问题和写作，我还可以帮助你进行文本生成。如果你想生成一些随机的文本，你可以向我提供一些模板和关键词，我就可以根据你提供的信息生成一些随机的文本。这些文本可能是一些名言、句子、段落或者小故事，它们都可以根据你提供的信息来生成。我会尽力为你生成有趣、有用的文本，帮助你实现你的目标。
-> 还有很多其他的事情，我可以帮助你完成。比如，如果你想知道某个单词的含义，你可以问我，我会告诉你这个单词的含义。如果你想了解一些事情的细节，你也可以问我，我会尽力为你提供有价值的信息。如果你有任何问题，都可以问我，我会尽力为你解答。
-> 甚至这个代码库也是我写的。
-
-1. 回答问题。我能够通过文字回答问题，为用户提供信息。
-
-2. 提供建议。我能够根据用户的需求提供专业的建议。
-
-3. 计算数学问题。我能够快速准确地计算简单的数学问题。
-
-4. 翻译文本。我能够快速准确地翻译文本，让用户更好地理解内容。
-
-5. 生成文本。我能够根据提供的信息生成文本，为用户提供更多信息。
-
-6. 写作。我能够根据用户的需求进行写作，为用户提供高质量的文字内容。
-
-7. 提供知识。我能够根据用户的需求提供专业的知识，为用户提供更多信息。
-
-8. 提供解决方案。我能够根据用户提出的问题提供解决方案，帮助用户解决实际问题。
-
-9. 提供娱乐。我能够根据用户的需求提供娱乐内容，为用户提供欢乐和放松。
-
-10. 聊天。我能够通过文字和用户进行交流，提供娱乐和放松。
 
 
-
-
-
-## 使用
+## 使用指南
 
 maven
 ```
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.2.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.2.0'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.0'
 ```
 
-启动https://github.com/acheong08/ChatGPT-Proxy
-记住地址proxyaddr
 
-然后
+
+### 最简使用
+
+```java
+      //国内需要代理
+      Proxy proxy = Proxys.http("127.0.0.1", 1080);
+
+      ChatGPT chatGPT = ChatGPT.builder()
+                .apiKey("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")
+                .proxy(proxy)
+                .apiHost("https://api.openai.com/") //反向代理地址
+                .build()
+                .init();
+                
+        String res = chatGPT.chat("写一段七言绝句诗，题目是：火锅！");
+        System.out.println(res);
+
 ```
-  Chatbot chatbot = new Chatbot("sessionToken","cf_clearance","user-agent");
-  chatbot.setHost("http://proxyaddr:5000");
 
-  Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
-  System.out.println(chatResponse.get("message"));
+
+### 进阶使用
+
+```java
+      //国内需要代理 国外不需要
+      Proxy proxy = Proxys.http("127.0.0.1", 1080);
+
+      ChatGPT chatGPT = ChatGPT.builder()
+                .apiKey("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")
+                .proxy(proxy)
+                .timeout(900)
+                .apiHost("https://api.openai.com/") //反向代理地址
+                .build()
+                .init();
+                
+        Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
+
+        Message system = Message.ofSystem("你现在是一个诗人，专门写七言绝句");
+        Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
+
+        ChatCompletion chatCompletion = ChatCompletion.builder()
+                .model(ChatCompletion.Model.GPT_3_5_TURBO.getName())
+                .messages(Arrays.asList(system, message))
+                .maxTokens(3000)
+                .temperature(0.9)
+                .build();
+        ChatCompletionResponse response = chatGPT.chatCompletion(chatCompletion);
+        Message res = response.getChoices().get(0).getMessage();
+        System.out.println(res);
+
 ```
-注意：一个Chatbot实例为一个Session，会持有对话上下文，可以回复：继续 让机器人接着说。如果需要对话互相隔离，new 多个Chatbot实例即可。
 
-### sessionToken获取
-https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
+### 流式使用
 
-1. 通过 https://chat.openai.com/chat 注册并登录。
-2. 打开浏览器开发者工具，切换到 Application 标签页。
-3. 在左侧的 Storage - Cookies 中找到 __Secure-next-auth.session-token 一行并复制其值
-4. 找到 cf_clearance 复制
-5. 在network中获取 user-agent 复制
+```java
+      //国内需要代理 国外不需要
+      Proxy proxy = Proxys.http("127.0.0.1", 1080);
 
-注意：如果提示403. 请检查以上参数是否正确，是否过期。并且获取以上参数的浏览器要和本程序在同一IP地址
+      ChatGPTStream chatGPTStream = ChatGPTStream.builder()
+                .timeout(600)
+                .apiKey("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")
+                .proxy(proxy)
+                .apiHost("https://api.openai.com/")
+                .build()
+                .init();
+
+                
+        ConsoleStreamListener listener = new ConsoleStreamListener();
+        Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
+        ChatCompletion chatCompletion = ChatCompletion.builder()
+                .messages(Arrays.asList(message))
+                .build();
+        chatGPTStream.streamChatCompletion(chatCompletion, listener);
+
+```
+
+### 流式配合Spring SseEmitter使用
+
+参考 [SseStreamListener](src/main/java/com/plexpt/chatgpt/listener/SseStreamListener.java)
+
+```java
+  
+
+    @GetMapping("/chat/sse")
+    @CrossOrigin
+    public SseEmitter sseEmitter(String prompt) {
+       //国内需要代理 国外不需要
+       Proxy proxy = Proxys.http("127.0.0.1", 1080);
+
+       ChatGPTStream chatGPTStream = ChatGPTStream.builder()
+                .timeout(600)
+                .apiKey("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")
+                .proxy(proxy)
+                .apiHost("https://api.openai.com/")
+                .build()
+                .init();
+        
+        SseEmitter sseEmitter = new SseEmitter(-1L);
+
+        SseStreamListener listener = new SseStreamListener(sseEmitter);
+        Message message = Message.of(prompt);
+
+        listener.setOnComplate(msg -> {
+            //回答完成，可以做一些事情
+        });
+        chatGPTStream.streamChatCompletion(Arrays.asList(message), listener);
+
+
+        return sseEmitter;
+    }
+
+```
+
+
+
+## 多KEY自动轮询
+
+只需替换chatGPT构造部分
+
+```
+chatGPT = ChatGPT.builder()
+        .apiKeyList(
+               // 从数据库或其他地方取出多个KEY
+                Arrays.asList("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",
+                        "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",
+                        "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",
+                        "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",
+                        ))
+        .timeout(900)
+        .proxy(proxy)
+        .apiHost("https://api.openai.com/") //代理地址
+        .build()
+        .init();
+```
+
+
+
+
+
+# 常见问题
+
+|                              问                              |                              答                              |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                         KEY从哪来？                          | 手动注册生成：ai.com(需要海外手机号)、或者成品独享帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9Mg%3D%3D) |
+|                        哪些地区不能用                        | **以下国家IP不支持使用：中国(包含港澳台) 俄罗斯 乌克兰 阿富汗 白俄罗斯 委内瑞拉 伊朗 埃及!!** |
+|                         有封号风险吗                         |              充值的没有。你免费白嫖不封你封谁。              |
+|                  我是尊贵的Plus会员，能用吗                  |             能用，照封不误。PLUS调用API没啥区别              |
+|                        GPT4.0 怎么用                         |          申请 https://openai.com/waitlist/gpt-4-api          |
+|                  api.openai.com ping不通？                   |                   禁ping，用curl测试连通性                   |
+|                          显示超时？                          |                        IP不好，换个IP                        |
+| 显示Your access was terminated due to violation of our policies... |                       你号没了，下一个                       |
+|                         显示模型超载                         |                        官方炸了，重试                        |
+
+---
+
+
+
+
 
 ### 注册教程
 
@@ -128,16 +252,16 @@ https://juejin.cn/post/7173447848292253704
 
 https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 
-### 也可以控制台直接使用
-1. 下载
-2. 编辑 config.json 里的sessionToken
-3. 运行 run.bat
-4. 注意：输入之后需要回车两次
+### 控制台直接使用测试
+#### 另外请看看我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
 # 云服务器
+
 点击👇🏻传送链接，购买云服务器：
+
 - [**阿里云服务器**](https://reurl.cc/NqQXyx)
 - [**【腾讯云】云服务器等爆品抢先购，低至4.2元/月**](https://url.cn/B7m0OYnG)
+
 
 
 # Star History
