@@ -11,6 +11,7 @@ import com.plexpt.chatgpt.exception.CommonError;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.net.Proxy;
 import java.util.Arrays;
 import java.util.List;
@@ -173,7 +174,7 @@ public class ChatGPT {
     }
 
     /**
-     * OpenAi账户余额查询
+     * 余额查询
      *
      * @return
      */
@@ -182,5 +183,17 @@ public class ChatGPT {
         return creditGrants.blockingGet();
     }
 
+
+    /**
+     * 余额查询
+     *
+     * @return
+     */
+    public BigDecimal balance() {
+        Single<CreditGrantsResponse> creditGrants = apiClient.creditGrants();
+        CreditGrantsResponse response = creditGrants.blockingGet();
+
+        return response.getTotalAvailable();
+    }
 
 }
