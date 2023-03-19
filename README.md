@@ -237,8 +237,12 @@ chatGPT = ChatGPT.builder()
 |                        GPT4.0 怎么用                         |          申请 https://openai.com/waitlist/gpt-4-api          |
 |                  api.openai.com ping不通？                   |                   禁ping，用curl测试连通性                   |
 |                          显示超时？                          |                        IP不好，换个IP                        |
-| 显示Your access was terminated due to violation of our policies... |                       你号没了，下一个                       |
-|                         显示模型超载                         |                        官方炸了，重试                        |
+| 显示`Your access was terminated due to violation of our policies`... |                       你号没了，下一个                       |
+| 显示`That model is currently overloaded with other requests. You can retry your request` |                   模型过载，官方炸了，重试                   |
+|                      生成的图片不能用？                      |                   图片是它瞎编的，洗洗睡吧                   |
+|                          如何充值？                          |                   用国外信用卡，国内的不行                   |
+|                    没有国外信用卡怎么办？                    |         用这个, 扫码免费开卡并充值![](pic/depay.jpg)         |
+|                                                              |                                                              |
 
 ---
 
