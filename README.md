@@ -121,9 +121,7 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.1'
                 .apiHost("https://api.openai.com/") //反向代理地址
                 .build()
                 .init();
-                
-        Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
-
+     
         Message system = Message.ofSystem("你现在是一个诗人，专门写七言绝句");
         Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
 
@@ -261,7 +259,6 @@ https://juejin.cn/post/7173447848292253704
 
 https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 
-### 控制台直接使用测试
 #### 另外请看看我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
 # 云服务器

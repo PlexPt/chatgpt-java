@@ -9,64 +9,142 @@
 
 [简体中文文档](https://github.com/PlexPt/chatgpt-java/blob/main/README_zh.md).
 
-Reverse Engineered ChatGPT by OpenAI. Extensible for chatbots etc.
-
-Thanks to [revChatGPT](https://github.com/acheong08/ChatGPT).
-
+SDK for OpenAI ChatGPT. If you find it helpful, please give it a star in the upper right corner.
 
 # Features
+
+|     Feature      |   Support   |
+| :--------------: | :---------: |
+|     GPT 3.5      |  Supported  |
+|     GPT 4.0      |  Supported  |
+|   GPT 4.0-32k    |  Supported  |
+| Streaming Dialog |  Supported  |
+| Blocking Dialog  |  Supported  |
+|    Front-end     |    None     |
+|     Context      |  Supported  |
+|  Token Compute   | Coming Soon |
+|  Multiple Keys   |  Supported  |
+|      Proxy       |  Supported  |
+|  Reverse Proxy   |  Supported  |
+
 ![image](https://user-images.githubusercontent.com/36258159/205534498-acc59484-c4b4-487d-89a7-d7b884af709b.png)
 
 ![image](https://user-images.githubusercontent.com/15922823/206353660-47d99158-a664-4ade-b2f1-e2cc8ac68b74.png)
 
 ## USE
 
-maven
+#### maven
+
 ```
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>1.2.0</version>
+    <version>4.0.1</version>
 </dependency>
 ```
 
-gradle
+#### gradle
+
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '1.2.0'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.1'
+```
+
+### Quick Start
+
+```
+
+       ChatGPT chatGPT = ChatGPT.builder()
+                .apiKey("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")
+                .build()
+                .init();
+                
+        String res = chatGPT.chat("hello！");
+        System.out.println(res);
+```
+### Advanced Usage
+
+```java
+   //Proxy is required in some contry
+      Proxy proxy = Proxys.http("127.0.0.1", 1080);
+
+      ChatGPT chatGPT = ChatGPT.builder()
+                .apiKey("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")
+                .proxy(proxy)
+                .timeout(900)
+                .apiHost("https://api.openai.com/") //Reverse proxy address
+                .build()
+                .init();
+  
+        Message system = Message.ofSystem("You are now a poet, specializing in writing seven character quatrains");
+        Message message = Message.of("Write a seven-character quatrain poem titled: Future!");
+
+        ChatCompletion chatCompletion = ChatCompletion.builder()
+                .model(ChatCompletion.Model.GPT_3_5_TURBO.getName())
+                .messages(Arrays.asList(system, message))
+                .maxTokens(3000)
+                .temperature(0.9)
+                .build();
+        ChatCompletionResponse response = chatGPT.chatCompletion(chatCompletion);
+        Message res = response.getChoices().get(0).getMessage();
+        System.out.println(res);
+```
+
+### Streaming Usage
+
+```java
+ 
+
+      ChatGPTStream chatGPTStream = ChatGPTStream.builder()
+                .timeout(600)
+                .apiKey("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")
+                .build()
+                .init();
+
+                
+        ConsoleStreamListener listener = new ConsoleStreamListener();
+        Message message = Message.of("Write a seven-character quatrain poem titled: Future!");
+        ChatCompletion chatCompletion = ChatCompletion.builder()
+                .messages(Arrays.asList(message))
+                .build();
+        chatGPTStream.streamChatCompletion(chatCompletion, listener);
+
+```
+
+### Using Spring SseEmitter with Streaming
+
+Refer to [SseStreamListener](https://chat.plexpt.com/src/main/java/com/plexpt/chatgpt/listener/SseStreamListener.java)
+
+```java
+
+    @GetMapping("/chat/sse")
+    @CrossOrigin
+    public SseEmitter sseEmitter(String prompt) {
+     
+
+       ChatGPTStream chatGPTStream = ChatGPTStream.builder()
+                .timeout(600)
+                .apiKey("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")
+                .apiHost("https://api.openai.com/")
+                .build()
+                .init();
+        
+        SseEmitter sseEmitter = new SseEmitter(-1L);
+
+        SseStreamListener listener = new SseStreamListener(sseEmitter);
+        Message message = Message.of(prompt);
+
+        listener.setOnComplate(msg -> {
+            //The answer is complete, do something 
+        });
+        chatGPTStream.streamChatCompletion(Arrays.asList(message), listener);
+
+
+        return sseEmitter;
+    }
+
 ```
 
 
-then
-```
-  Chatbot chatbot = new Chatbot("sessionToken");
-  Map<String, Object> chatResponse = chatbot.getChatResponse("hello");
-  System.out.println(chatResponse.get("message"));
-```
-### Get sessionToken
-https://github.com/acheong08/ChatGPT/wiki/Setup#token-authentication
-
-
-### CLI use
-1. download from release
-2. edit config.json
-3. run
-
-
-# Awesome ChatGPT
-[My list](https://github.com/stars/acheong08/lists/awesome-chatgpt)
-
-If you have a cool project you want added to the list, open an issue.
-
-# Disclaimers
-This is not an official OpenAI product. This is a personal project and is not affiliated with OpenAI in any way. Don't sue me
-
-### This is a library and not intended for direct CLI use
-The CLI functionality is for demo and testing only. Captcha is not supported (For unclean IP addresses)
-
-### CLI use
-[@rawandahmad698](https://github.com/rawandahmad698) has a much better CLI tool at
-
-**[PyChatGPT](https://github.com/rawandahmad698/PyChatGPT)** supports captcha!
 
 # Star History
 
