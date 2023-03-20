@@ -20,12 +20,12 @@ public class SseStreamListener extends AbstractStreamListener {
 
 
     @Override
-    public void onMsg(String msg) {
-        SseHelper.send(sseEmitter, msg);
+    public void onMsg(String message) {
+        SseHelper.send(sseEmitter, message);
     }
 
     @Override
-    public void onError(Throwable t, String response) {
+    public void onError(Throwable throwable, String response) {
         SseHelper.complete(sseEmitter);
     }
 

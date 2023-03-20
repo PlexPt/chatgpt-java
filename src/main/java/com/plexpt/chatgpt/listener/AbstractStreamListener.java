@@ -19,45 +19,59 @@ import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 
 /**
- * sse
+ * EventSource listener for chat-related events.
  *
  * @author plexpt
  */
 @Slf4j
 public abstract class AbstractStreamListener extends EventSourceListener {
 
-    protected String last = "";
+    protected String lastMessage = "";
+
+
+    /**
+     * Called when all new message are received.
+     *
+     * @param message the new message
+     */
     @Setter
     @Getter
     protected Consumer<String> onComplate = s -> {
 
     };
 
-
     /**
+     * Called when a new message is received.
      * 收到消息 单个字
+     *
+     * @param message the new message
      */
-    public abstract void onMsg(String msg);
-
+    public abstract void onMsg(String message);
 
     /**
-     * 出错了
+     * Called when an error occurs.
+     * 出错时调用
+     *
+     * @param throwable the throwable that caused the error
+     * @param response  the response associated with the error, if any
      */
-    public abstract void onError(Throwable t, String response);
+    public abstract void onError(Throwable throwable, String response);
 
     @Override
     public void onOpen(EventSource eventSource, Response response) {
+        // do nothing
     }
 
     @Override
     public void onClosed(EventSource eventSource) {
+        // do nothing
     }
 
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         if (data.equals("[DONE]")) {
-            log.info("回答完成：{}", last);
-            onComplate.accept(last);
+            log.info("Chat session completed: {}", lastMessage);
+            onComplate.accept(lastMessage);
             return;
         }
 
@@ -71,7 +85,7 @@ public abstract class AbstractStreamListener extends EventSourceListener {
         String text = delta.getContent();
 
         if (text != null) {
-            last += text;
+            lastMessage += text;
 
             onMsg(text);
 
@@ -82,28 +96,37 @@ public abstract class AbstractStreamListener extends EventSourceListener {
 
     @SneakyThrows
     @Override
-    public void onFailure(EventSource eventSource, Throwable t, Response response) {
+    public void onFailure(EventSource eventSource, Throwable throwable, Response response) {
 
         try {
-            log.error("stream连接异常:{}", t);
+            log.error("Stream connection error: {}", throwable);
 
-            String res = "";
+            String responseText = "";
 
             if (Objects.nonNull(response)) {
-                res = response.body().string();
+                responseText = response.body().string();
             }
 
-            log.error("response：{}", res);
+            log.error("response：{}", responseText);
 
-            String seq = "Your access was terminated due to violation of our policies";
+            String forbiddenText = "Your access was terminated due to violation of our policies";
 
-            if (StrUtil.contains(res, seq)) {
+            if (StrUtil.contains(responseText, forbiddenText)) {
+                log.error("Chat session has been terminated due to policy violation");
                 log.error("检测到号被封了");
             }
 
-            onError(t, res);
+            String overloadedText = "That model is currently overloaded with other requests.";
+
+            if (StrUtil.contains(responseText, overloadedText)) {
+                log.error("检测到官方超载了，赶紧优化你的代码，做重试吧");
+            }
+
+            this.onError(throwable, responseText);
 
         } catch (Exception e) {
+            log.warn("onFailure error:{}", e);
+            // do nothing
 
         } finally {
             eventSource.cancel();

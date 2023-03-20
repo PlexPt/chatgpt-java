@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 控制台测试
+ * Console Stream Test Listener
  *
  * @author plexpt
  */
@@ -12,12 +13,12 @@ public class ConsoleStreamListener extends AbstractStreamListener {
 
 
     @Override
-    public void onMsg(String msg) {
-        System.out.print(msg);
+    public void onMsg(String message) {
+        System.out.print(message);
     }
 
     @Override
-    public void onError(Throwable t, String response) {
+    public void onError(Throwable throwable, String response) {
 
     }
 
