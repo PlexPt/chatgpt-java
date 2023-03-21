@@ -9,8 +9,6 @@ import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
 import com.plexpt.chatgpt.exception.ChatException;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigDecimal;
 import java.net.Proxy;
 import java.util.Arrays;
@@ -52,7 +50,6 @@ public class ChatGPT {
     /**
      * keys
      */
-    @NotNull
     private String apiKey;
 
     private List<String> apiKeyList;

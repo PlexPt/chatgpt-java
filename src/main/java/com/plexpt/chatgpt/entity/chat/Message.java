@@ -1,7 +1,5 @@
 package com.plexpt.chatgpt.entity.chat;
 
-import org.jetbrains.annotations.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,12 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Message {
-    @NotNull
     /**
      * 目前支持三中角色参考官网，进行情景输入：https://platform.openai.com/docs/guides/chat/introduction
      */
     private String role;
-    @NotNull
     private String content;
 
     public static Message of(String content) {

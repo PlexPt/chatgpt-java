@@ -40,9 +40,7 @@ import okhttp3.sse.EventSources;
 @AllArgsConstructor
 public class ChatGPTStream {
 
-    @NonNull
     private String apiKey;
-
     private List<String> apiKeyList;
 
     private OkHttpClient okHttpClient;
