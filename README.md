@@ -222,7 +222,7 @@ chatGPT = ChatGPT.builder()
 
 ## 上下文
 
-参考  [ChatContextHolder.java](src\main\java\com\plexpt\chatgpt\util\ChatContextHolder.java) 
+参考  [ChatContextHolder.java](src/main/java/com/plexpt/chatgpt/util/ChatContextHolder.java) 
 
 
 
