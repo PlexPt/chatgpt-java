@@ -91,6 +91,8 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.4'
 
 ### 最简使用
 
+也可以使用这个类进行测试 [ConsoleChatGPT](src/main/java/com/plexpt/chatgpt/ConsoleChatGPT.java)
+
 ```java
       //国内需要代理
       Proxy proxy = Proxys.http("127.0.0.1", 1080);

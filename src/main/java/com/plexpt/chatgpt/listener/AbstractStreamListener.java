@@ -70,7 +70,6 @@ public abstract class AbstractStreamListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         if (data.equals("[DONE]")) {
-            log.info("Chat session completed: {}", lastMessage);
             onComplate.accept(lastMessage);
             return;
         }

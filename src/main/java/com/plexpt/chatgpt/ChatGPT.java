@@ -185,4 +185,18 @@ public class ChatGPT {
         return response.getTotalAvailable();
     }
 
+    /**
+     * 余额查询
+     *
+     * @return
+     */
+    public static BigDecimal balance(String key) {
+        ChatGPT chatGPT = ChatGPT.builder()
+                .apiKey(key)
+                .build()
+                .init();
+
+        return chatGPT.balance();
+    }
+
 }

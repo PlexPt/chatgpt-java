@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.0.4</version>
+    <version>4.0.5</version>
     <name>chatgpt</name>
     <description>ChatGPT4.0、 ChatGPT Java SDK.</description>
     <url>https://chat.plexpt.com</url>
@@ -235,7 +235,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.plexpt.chatgpt.ChatGPT</mainClass>
+                            <mainClass>com.plexpt.chatgpt.ConsoleChatGPT</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
