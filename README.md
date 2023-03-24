@@ -73,18 +73,20 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 ## 使用指南
 
+最新版本 [![Maven Central](https://img.shields.io/maven-central/v/com.github.plexpt/chatgpt)](https://maven-badges.herokuapp.com/maven-central/com.github.plexpt/chatgpt)
+
 maven
 ```
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.0.4</version>
+    <version>4.0.5</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.4'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.5'
 ```
 
 
