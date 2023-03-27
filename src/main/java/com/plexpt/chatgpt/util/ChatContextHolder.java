@@ -2,10 +2,7 @@ package com.plexpt.chatgpt.util;
 
 import com.plexpt.chatgpt.entity.chat.Message;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChatContextHolder {
 
@@ -55,5 +52,13 @@ public class ChatContextHolder {
             context.put(id, messages);
         }
         messages.add(message);
+    }
+
+    /**
+     * 清除对话
+     * @param id
+     */
+    public static void remove(String id) {
+        context.remove(id);
     }
 }
