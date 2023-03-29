@@ -85,7 +85,9 @@ public abstract class AbstractStreamListener extends EventSourceListener {
 
         if (text != null) {
             lastMessage += text;
-
+            if(text.contains("\n\n")){
+                text = text.replace("\n","\\n");
+            }
             onMsg(text);
 
         }
