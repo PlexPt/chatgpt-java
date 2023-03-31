@@ -30,13 +30,17 @@ public class Message {
         return new Message(Role.SYSTEM.getValue(), content);
     }
 
+    public static Message ofAssistant(String content) {
+
+        return new Message(Role.ASSISTANT.getValue(), content);
+    }
+    
     @Getter
     @AllArgsConstructor
     public enum Role {
 
         SYSTEM("system"),
         USER("user"),
-
         ASSISTANT("assistant"),
         ;
         private String value;
