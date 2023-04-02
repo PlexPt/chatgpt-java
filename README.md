@@ -97,7 +97,9 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.5'
 
 ```java
       //国内需要代理
-      Proxy proxy = Proxys.http("127.0.0.1", 1080);
+      Proxy proxy = Proxys.http("127.0.0.1", 1081);
+     //socks5 代理
+    // Proxy proxy = Proxys.socks5("127.0.0.1", 1080);
 
       ChatGPT chatGPT = ChatGPT.builder()
                 .apiKey("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")
