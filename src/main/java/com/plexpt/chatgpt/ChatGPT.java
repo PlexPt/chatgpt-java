@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.BaseResponse;
 import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;
+import com.plexpt.chatgpt.entity.billing.SubscriptionData;
+import com.plexpt.chatgpt.entity.billing.UseageResponse;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
@@ -11,11 +13,16 @@ import com.plexpt.chatgpt.exception.ChatException;
 
 import java.math.BigDecimal;
 import java.net.Proxy;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
@@ -179,10 +186,17 @@ public class ChatGPT {
      * @return
      */
     public BigDecimal balance() {
-        Single<CreditGrantsResponse> creditGrants = apiClient.creditGrants();
-        CreditGrantsResponse response = creditGrants.blockingGet();
+        Single<SubscriptionData> subscription = apiClient.subscription();
+        SubscriptionData subscriptionData = subscription.blockingGet();
+        BigDecimal total = subscriptionData.getHardLimitUsd();
+        DateTime start = DateUtil.offsetDay(new Date(), -90);
+        DateTime end = DateUtil.offsetDay(new Date(), 1);
 
-        return response.getTotalAvailable();
+        Single<UseageResponse> usage = apiClient.usage(formatDate(start), formatDate(end));
+        UseageResponse useageResponse = usage.blockingGet();
+        BigDecimal used = useageResponse.getTotalUsage().divide(BigDecimal.valueOf(100));
+
+        return total.subtract(used);
     }
 
     /**
@@ -199,4 +213,8 @@ public class ChatGPT {
         return chatGPT.balance();
     }
 
+    public static String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(date);
+    }
 }
