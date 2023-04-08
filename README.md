@@ -26,7 +26,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 点击👇🏻传送链接，购买云服务器炼丹：
 
-- [**阿里云服务器**](https://reurl.cc/NqQXyx)
+- [**阿里云服务器**](https://51015.cn/ss/3vpds)
 - [**【腾讯云】云服务器，低至4.2元/月**](https://url.cn/B7m0OYnG)
 
 # 功能特性
