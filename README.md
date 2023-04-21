@@ -40,7 +40,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 | 阻塞式对话  |   支持   |
 |    前端     |    无    |
 |   上下文    |   支持   |
-|  计算Token  | 即将支持 |
+|  计算Token  | [用jtokkit](https://github.com/knuddelsgmbh/jtokkit) |
 |  多KEY轮询  |   支持   |
 |    代理     |   支持   |
 |  反向代理   |   支持   |
