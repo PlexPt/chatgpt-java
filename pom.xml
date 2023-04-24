@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.0.6</version>
+    <version>4.0.7</version>
     <name>chatgpt</name>
     <description>ChatGPT4.0、 ChatGPT Java SDK.</description>
     <url>https://chat.plexpt.com</url>
@@ -50,7 +50,7 @@
 
         <retrofit2.version>2.9.0</retrofit2.version>
         <slf4j.version>2.0.7</slf4j.version>
-        <logback.version>1.4.6</logback.version>
+        <logback.version>1.3.7</logback.version>
     </properties>
 
     <dependencies>
