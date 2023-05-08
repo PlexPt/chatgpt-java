@@ -135,7 +135,11 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.knuddels</groupId>
+            <artifactId>jtokkit</artifactId>
+            <version>0.4.0</version>
+        </dependency>
     </dependencies>
 
     <!-- 下面这个标签里的不能改 -->

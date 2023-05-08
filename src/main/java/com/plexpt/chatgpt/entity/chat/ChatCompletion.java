@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import com.plexpt.chatgpt.util.TokensUtil;
 
 /**
  * chat
@@ -24,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatCompletion implements Serializable {
 
@@ -125,6 +126,9 @@ public class ChatCompletion implements Serializable {
         private String name;
     }
 
+    public int countTokens() {
+        return TokensUtil.tokens(this.model, this.messages);
+    }
 }
 
 

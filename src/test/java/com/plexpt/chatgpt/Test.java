@@ -61,4 +61,29 @@ public class Test {
         System.out.println(res);
     }
 
+    /**
+     * 测试tokens数量计算
+     */
+    @org.junit.Test
+    public void tokens() {
+        Message system = Message.ofSystem("你现在是一个诗人，专门写七言绝句");
+        Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
+
+        ChatCompletion chatCompletion1 = ChatCompletion.builder()
+                .model(ChatCompletion.Model.GPT_3_5_TURBO.getName())
+                .messages(Arrays.asList(system, message))
+                .maxTokens(3000)
+                .temperature(0.9)
+                .build();
+        ChatCompletion chatCompletion2 = ChatCompletion.builder()
+                .model(ChatCompletion.Model.GPT_4.getName())
+                .messages(Arrays.asList(system, message))
+                .maxTokens(3000)
+                .temperature(0.9)
+                .build();
+
+        log.info("{} tokens: {}", chatCompletion1.getModel(), chatCompletion1.countTokens());
+        log.info("{} tokens: {}", chatCompletion2.getModel(), chatCompletion2.countTokens());
+    }
+
 }
