@@ -17,9 +17,9 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 ### GPT4.0 API 权限帐号：[购买](https://fk.fq.mk?code=YT0xJmI9Mjc%3D)
 
-# 问题表
+# 中文语料库
 
-[共约67万个问题，欢迎拿去炼丹](https://github.com/PlexPt/awesome-chatgpt-prompts-zh/blob/main/question/README.md)
+[中文语料库 67万+问题，欢迎拿去炼丹](https://github.com/PlexPt/chatgpt-corpus)
 
 
 
