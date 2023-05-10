@@ -7,11 +7,8 @@
 
 
 OpenAI ChatGPT 的SDK。觉得不错请右上角Star
-
-感谢 [revChatGPT](https://github.com/acheong08/ChatGPT).
-
-
-
+ 
+ 
 #### 项目合作洽谈请点击 联系微信 https://work.weixin.qq.com/kfid/kfc6913bb4906e0e597
 
 ### QQ群：645132635
