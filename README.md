@@ -18,7 +18,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 ### 免费5刀的帐号已被限速
 
-### GPT4.0 API 权限帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9MjU%3D)
+### GPT4.0 API 权限帐号：[购买](https://fk.fq.mk?code=YT0xJmI9Mjc%3D)
 
 # 问题表
 
