@@ -47,23 +47,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 
 
-# PRO版
-
-如需使用，请购买。
-
-|          | 开源免费版 |                            PRO版                             |                    PRO MAX版                    |
-| :------: | :--------: | :----------------------------------------------------------: | :---------------------------------------------: |
-|   价格   |  开源免费  |                             299                              |                       399                       |
-|   简介   |            |                     开源版+前端+1对1指导                     |            网页逆向版+1对1指导             |
-|   地址   |   本仓库   | [购买](https://fk.fq.mk/?code=YT0yJmI9Nw%3D%3D)  [演示站](https://javachat.plexpt.com) | [购买](https://fk.fq.mk/?code=YT0yJmI9OA%3D%3D) |
-| GPT 4.0  |    支持    |                             支持                             |                      支持                       |
-|   优势   |    免费    |                   有前端，稳定，+专业指导                    |             满血网页逆向版+专业指导             |
-| 1对1指导 |     无     |                              有                              |                       有                        |
-| 登录方式 |   APIKEY   |                            APIKEY                            |             sessionToken、邮箱密码              |
-| 使用方式 |  Java API  |                       Java API + 在线                        |                    Java API                     |
-|   前端   |     无     |                      有（HTML5 + SSE）                       |                       无                        |
-
-
+ 
 
 ![image](https://user-images.githubusercontent.com/15922823/206353660-47d99158-a664-4ade-b2f1-e2cc8ac68b74.png)
 
