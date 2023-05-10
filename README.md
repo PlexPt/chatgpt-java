@@ -16,7 +16,9 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 ### QQ群：645132635
 
-### 免费5刀的帐号已被限速，回答龟速，需要不限速的可购买**ChatGPT**120美金额度成品独享帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9MjU%3D)
+### 免费5刀的帐号已被限速
+
+### GPT4.0 API 权限帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9MjU%3D)
 
 # 问题表
 
