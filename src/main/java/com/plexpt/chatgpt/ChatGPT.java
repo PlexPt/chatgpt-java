@@ -127,7 +127,7 @@ public class ChatGPT {
         this.apiClient = new Retrofit.Builder()
                 .baseUrl(this.apiHost)
                 .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build()
                 .create(Api.class);
