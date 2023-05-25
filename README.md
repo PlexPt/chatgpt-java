@@ -156,6 +156,8 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.8'
 
 参考 [SseStreamListener](src/main/java/com/plexpt/chatgpt/listener/SseStreamListener.java)
 
+你可能在找这个，参考Demo https://github.com/PlexPt/chatgpt-online-springboot
+
 ```java
   
 
