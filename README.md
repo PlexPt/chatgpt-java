@@ -30,19 +30,20 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 # 功能特性
 
-|    功能     |   特性   |
-| :---------: | :------: |
+|     功能      |   特性   |
+|:-----------:| :------: |
 |   GPT 3.5   |   支持   |
 |   GPT 4.0   |   支持   |
+| GPT 3.5-16k |   支持   |
 | GPT 4.0-32k |   支持   |
-|  流式对话   |   支持   |
-| 阻塞式对话  |   支持   |
-|    前端     |    无    |
-|   上下文    |   支持   |
-|  计算Token  | [用jtokkit](https://github.com/knuddelsgmbh/jtokkit) |
-|  多KEY轮询  |   支持   |
-|    代理     |   支持   |
-|  反向代理   |   支持   |
+|    流式对话     |   支持   |
+|    阻塞式对话    |   支持   |
+|     前端      |    无    |
+|     上下文     |   支持   |
+|   计算Token   | [用jtokkit](https://github.com/knuddelsgmbh/jtokkit) |
+|   多KEY轮询    |   支持   |
+|     代理      |   支持   |
+|    反向代理     |   支持   |
 
 
 
@@ -65,13 +66,13 @@ maven
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.0.8</version>
+    <version>4.1.0</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.0.8'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.1.0'
 ```
 
 
