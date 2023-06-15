@@ -35,8 +35,8 @@ public class Test {
                 .build()
                 .init();
 
-        CreditGrantsResponse response = chatGPT.creditGrants();
-        log.info("余额：{}", response.getTotalAvailable());
+//        CreditGrantsResponse response = chatGPT.creditGrants();
+//        log.info("余额：{}", response.getTotalAvailable());
     }
 
     @org.junit.Test

@@ -74,15 +74,15 @@ public class ConsoleChatGPT {
 
         }
 
-        System.out.println("Inquiry balance...");
-        System.out.println("查询余额中...");
-        BigDecimal balance = getBalance(key);
-        System.out.println("API KEY balance: " + balance.toPlainString());
-
-        if (!NumberUtil.isGreater(balance, BigDecimal.ZERO)) {
-            System.out.println("API KEY 余额不足: ");
-            return;
-        }
+//        System.out.println("Inquiry balance...");
+//        System.out.println("查询余额中...");
+//        BigDecimal balance = getBalance(key);
+//        System.out.println("API KEY balance: " + balance.toPlainString());
+//
+//        if (!NumberUtil.isGreater(balance, BigDecimal.ZERO)) {
+//            System.out.println("API KEY 余额不足: ");
+//            return;
+//        }
 
 
         while (true) {
