@@ -1,6 +1,8 @@
 package com.plexpt.chatgpt.entity.chat;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,9 @@ public class Message {
     private String content;
     private String name;
 
+    @JsonProperty("function_call")
+    private String functionCall;
+
     public Message(String role, String content) {
         this.role = role;
         this.content = content;
@@ -42,7 +47,12 @@ public class Message {
 
         return new Message(Role.ASSISTANT.getValue(), content);
     }
-    
+
+    public static Message ofFunction(String function) {
+
+        return new Message(Role.FUNCTION.getValue(), function);
+    }
+
     @Getter
     @AllArgsConstructor
     public enum Role {
@@ -50,6 +60,8 @@ public class Message {
         SYSTEM("system"),
         USER("user"),
         ASSISTANT("assistant"),
+
+        FUNCTION("function"),
         ;
         private String value;
     }
