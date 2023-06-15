@@ -26,7 +26,7 @@ public class Message {
     private String name;
 
     @JsonProperty("function_call")
-    private String functionCall;
+    private FunctionCallResult functionCall;
 
     public Message(String role, String content) {
         this.role = role;
