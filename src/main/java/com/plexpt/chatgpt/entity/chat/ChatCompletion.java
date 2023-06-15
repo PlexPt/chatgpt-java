@@ -53,8 +53,10 @@ public class ChatCompletion implements Serializable {
     private double topP = 0.9;
 
 
-    @Builder.Default
-    String function_call = "auto";
+    /**
+     * auto
+     */
+    String function_call;
 
     List<ChatFunction> functions;
 

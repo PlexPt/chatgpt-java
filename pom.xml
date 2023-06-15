@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.1.1</version>
+    <version>4.1.2</version>
     <name>chatgpt</name>
     <description>ChatGPT4.0、 ChatGPT Java SDK.</description>
     <url>https://chat.plexpt.com</url>
