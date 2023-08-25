@@ -1,16 +1,19 @@
 package com.plexpt.chatgpt.api;
 
+import com.plexpt.chatgpt.entity.audio.AudioResponse;
+import com.plexpt.chatgpt.entity.audio.Transcriptions;
 import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;
 import com.plexpt.chatgpt.entity.billing.SubscriptionData;
 import com.plexpt.chatgpt.entity.billing.UseageResponse;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 
+import com.plexpt.chatgpt.entity.images.Edits;
+import com.plexpt.chatgpt.entity.images.Generations;
+import com.plexpt.chatgpt.entity.images.ImagesRensponse;
+import com.plexpt.chatgpt.entity.images.Variations;
 import io.reactivex.Single;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 
 /**
@@ -26,6 +29,41 @@ public interface Api {
      */
     @POST("v1/chat/completions")
     Single<ChatCompletionResponse> chatCompletion(@Body ChatCompletion chatCompletion);
+
+    /**
+     * image_generations
+     */
+    @POST("v1/images/generations")
+    Single<ImagesRensponse> imageGenerations(@Body Generations generations);
+
+    /**
+     * image_edits
+     */
+    @Multipart
+    @POST("v1/images/edits")
+    Single<ImagesRensponse> imageEdits(@PartMap Edits edits);
+
+
+    /**
+     * image_variations
+     */
+    @Multipart
+    @POST("v1/images/variations")
+    Single<ImagesRensponse> imageVariations(@PartMap Variations variations);
+
+    /**
+     * audio_transcriptions
+     */
+    @Multipart
+    @POST("v1/audio/transcriptions")
+    Single<AudioResponse> audioTranscriptions(@PartMap Transcriptions transcriptions);
+
+    /**
+     * audio_translations
+     */
+    @Multipart
+    @POST("v1/audio/translations")
+    Single<AudioResponse> audioTranslations(@PartMap Transcriptions transcriptions);
 
 
     /**
