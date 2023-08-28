@@ -13,21 +13,12 @@ import java.util.HashMap;
  */
 public class Transcriptions extends HashMap<String, RequestBody> {
 
-    public Transcriptions(File file, String model){
-        this.put("file",RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), file));
-        this.put("model",RequestBody.create(MediaType.parse("text/plain;charset=UTF-8"), model));
-    }
-
-    public Transcriptions(File file, String model, String prompt){
-        this.put("file",RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), file));
+    public Transcriptions(String model, String prompt){
         this.put("model",RequestBody.create(MediaType.parse("text/plain;charset=UTF-8"), model));
         this.put("prompt",RequestBody.create(MediaType.parse("text/plain;charset=UTF-8"), prompt));
     }
 
-    public static Transcriptions of(File file, String model) {
-        return new Transcriptions(file,model);
-    }
-    public static Transcriptions of(File file, String model, String prompt) {
-        return new Transcriptions(file,model,prompt);
+    public static Transcriptions of(String model, String prompt) {
+        return new Transcriptions(model,prompt);
     }
 }

@@ -13,7 +13,11 @@ import com.plexpt.chatgpt.entity.images.Generations;
 import com.plexpt.chatgpt.entity.images.ImagesRensponse;
 import com.plexpt.chatgpt.entity.images.Variations;
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.*;
+
+import java.util.Map;
 
 
 /**
@@ -41,7 +45,9 @@ public interface Api {
      */
     @Multipart
     @POST("v1/images/edits")
-    Single<ImagesRensponse> imageEdits(@PartMap Edits edits);
+    Single<ImagesRensponse> imageEdits(@Part() MultipartBody.Part image,
+                                       @Part() MultipartBody.Part mask,
+                                       @PartMap Edits edits);
 
 
     /**
@@ -49,21 +55,24 @@ public interface Api {
      */
     @Multipart
     @POST("v1/images/variations")
-    Single<ImagesRensponse> imageVariations(@PartMap Variations variations);
+    Single<ImagesRensponse> imageVariations(@Part() MultipartBody.Part image,
+                                            @PartMap Variations variations);
 
     /**
      * audio_transcriptions
      */
     @Multipart
     @POST("v1/audio/transcriptions")
-    Single<AudioResponse> audioTranscriptions(@PartMap Transcriptions transcriptions);
+    Single<AudioResponse> audioTranscriptions(@Part() MultipartBody.Part audio,
+                                              @PartMap Transcriptions transcriptions);
 
     /**
      * audio_translations
      */
     @Multipart
     @POST("v1/audio/translations")
-    Single<AudioResponse> audioTranslations(@PartMap Transcriptions transcriptions);
+    Single<AudioResponse> audioTranslations(@Part() MultipartBody.Part audio,
+                                            @PartMap Transcriptions transcriptions);
 
 
     /**

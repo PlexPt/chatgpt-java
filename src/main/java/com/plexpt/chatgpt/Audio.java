@@ -12,13 +12,12 @@ import com.plexpt.chatgpt.exception.ChatException;
 import io.reactivex.Single;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.io.File;
 import java.net.Proxy;
 import java.util.List;
 import java.util.Objects;
@@ -116,14 +115,18 @@ public class Audio {
         return this;
     }
 
-    public AudioResponse transcriptions(Transcriptions transcriptions){
+    public AudioResponse transcriptions(File audio,Transcriptions transcriptions){
+        RequestBody a = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), audio);
+        MultipartBody.Part aPart = MultipartBody.Part.createFormData("image", audio.getName(), a);
         Single<AudioResponse> audioResponse =
-                this.apiClient.audioTranscriptions(transcriptions);
+                this.apiClient.audioTranscriptions(aPart,transcriptions);
         return audioResponse.blockingGet();
     }
-    public AudioResponse translations(Transcriptions transcriptions){
+    public AudioResponse translations(File audio,Transcriptions transcriptions){
+        RequestBody a = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), audio);
+        MultipartBody.Part aPart = MultipartBody.Part.createFormData("image", audio.getName(), a);
         Single<AudioResponse> audioResponse =
-                this.apiClient.audioTranslations(transcriptions);
+                this.apiClient.audioTranslations(aPart,transcriptions);
         return audioResponse.blockingGet();
     }
 }
