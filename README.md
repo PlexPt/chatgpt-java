@@ -314,18 +314,18 @@ chatGPT = ChatGPT.builder()
 
 |                              问                              |                              答                              |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                         KEY从哪来？                          | 手动注册生成：ai.com(需要海外手机号)、或者成品独享帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9Mg%3D%3D) |
+|                         KEY从哪来？                          | 手动注册生成：openai.com(需要海外手机号)、或者成品独享帐号：[购买](https://fk.fq.mk/?code=YT0xJmI9Mg%3D%3D) |
 |                        哪些地区不能用                        | **以下国家IP不支持使用：中国(包含港澳台) 俄罗斯 乌克兰 阿富汗 白俄罗斯 委内瑞拉 伊朗 埃及!!** |
-|                         有封号风险吗                         |              充值的没有。你免费白嫖不封你封谁。              |
-|                  我是尊贵的Plus会员，能用吗                  |             能用，照封不误。PLUS调用API没啥区别              |
-|                        GPT4.0 怎么用                         |          申请 https://openai.com/waitlist/gpt-4-api          |
+|                         有封号风险吗                         |              使用代理有一定的风险。                  |
+|                  我是尊贵的Plus会员，能用吗                  |             PLUS是网页端，调用API没啥区别              |
+|                        GPT4.0 怎么用                         |          目前需要充值         |
 |                  api.openai.com ping不通？                   |                   禁ping，用curl测试连通性                   |
 |                          显示超时？                          |                        IP不好，换个IP                        |
 | 显示`Your access was terminated due to violation of our policies`... |                       你号没了，下一个                       |
 | 显示`That model is currently overloaded with other requests. You can retry your request` |                   模型过载，官方炸了，重试                   |
 |                      生成的图片不能用？                      |                   图片是它瞎编的，洗洗睡吧                   |
 |                          如何充值？                          |                   用国外信用卡，国内的不行                   |
-|                    没有国外信用卡怎么办？                    |         用这个, 扫码免费开卡并充值![](pic/depay.jpg)         |
+|                    没有国外信用卡怎么办？                    |         暂时没有特别好的办法待定               |
 |                         返回http 401                         |                     API 密钥写错了/没写                      |
 |                         返回http 429                         |            请求超速了，或者官方超载了。充钱可解决            |
 |                         返回http 500                         |                          服务器炸了                          |
