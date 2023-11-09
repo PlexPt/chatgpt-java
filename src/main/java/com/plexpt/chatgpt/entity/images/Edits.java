@@ -1,5 +1,6 @@
 package com.plexpt.chatgpt.entity.images;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plexpt.chatgpt.entity.images.enums.ResponseFormat;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @Date 2023/8/25 11:45
  * @Description: TODO
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Edits extends HashMap<String, RequestBody> {
 
     public Edits(String prompt, int n, String size,String response_format){

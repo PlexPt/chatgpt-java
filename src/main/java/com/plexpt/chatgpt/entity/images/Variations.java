@@ -1,5 +1,6 @@
 package com.plexpt.chatgpt.entity.images;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plexpt.chatgpt.entity.images.enums.ResponseFormat;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -15,6 +16,7 @@ import java.util.Objects;
  * @Description: TODO
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Variations extends HashMap<String, RequestBody> {
 
     public Variations(int n, String size, String response_format){

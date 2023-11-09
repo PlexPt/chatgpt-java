@@ -1,5 +1,6 @@
 package com.plexpt.chatgpt.entity.images;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  * @Description: TODO
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ImagesRensponse {
 
     private String code;

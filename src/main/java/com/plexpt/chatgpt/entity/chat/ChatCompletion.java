@@ -1,5 +1,6 @@
 package com.plexpt.chatgpt.entity.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.plexpt.chatgpt.util.TokensUtil;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatCompletion implements Serializable {
 
     @NonNull
@@ -115,10 +117,14 @@ public class ChatCompletion implements Serializable {
          * 临时模型，不建议使用
          */
         GPT_3_5_TURBO_0301("gpt-3.5-turbo-0301"),
+        GPT_3_5_TURBO_1106("gpt-3.5-turbo-1106"),
+        GPT_3_5_TURBO_INSTRUCT("gpt-3.5-turbo-instruct"),
         /**
          * GPT4.0
          */
         GPT_4("gpt-4"),
+        GPT4Turbo("gpt-4-1106-preview"),
+        GPT_4VP("gpt-4-vision-preview"),
         /**
          * 临时模型，不建议使用
          */
