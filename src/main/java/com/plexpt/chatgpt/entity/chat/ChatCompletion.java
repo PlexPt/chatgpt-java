@@ -103,6 +103,12 @@ public class ChatCompletion implements Serializable {
      */
     private String user;
 
+    /**
+     * 返回格式  当前只有gpt-3.5-turbo-1106和gpt-4-1106-preview 支持json_object格式返回
+     */
+    @JsonProperty("response_format")
+    private ResponseFormat responseFormat;
+
 
     @Getter
     @AllArgsConstructor
