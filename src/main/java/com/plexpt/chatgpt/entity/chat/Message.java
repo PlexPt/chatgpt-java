@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author plexpt
  */
@@ -19,7 +21,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Message {
+public class Message implements Serializable {
+    
+    private static final long serialVersionUID = -6759322526638522596L;
     /**
      * 目前支持三种角色参考官网，进行情景输入：https://platform.openai.com/docs/guides/chat/introduction
      */
