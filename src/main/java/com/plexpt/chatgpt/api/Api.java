@@ -7,17 +7,15 @@ import com.plexpt.chatgpt.entity.billing.SubscriptionData;
 import com.plexpt.chatgpt.entity.billing.UseageResponse;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
-
+import com.plexpt.chatgpt.entity.embedding.EmbeddingRequest;
+import com.plexpt.chatgpt.entity.embedding.EmbeddingResult;
 import com.plexpt.chatgpt.entity.images.Edits;
 import com.plexpt.chatgpt.entity.images.Generations;
 import com.plexpt.chatgpt.entity.images.ImagesRensponse;
 import com.plexpt.chatgpt.entity.images.Variations;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.http.*;
-
-import java.util.Map;
 
 
 /**
@@ -95,4 +93,10 @@ public interface Api {
                                  @Query("end_date") String endDate);
 
 
+    /**
+     * 生成向量
+     */
+    @POST("v1/embeddings")
+    Single<EmbeddingResult> createEmbeddings(@Body EmbeddingRequest request);
+    
 }
