@@ -8,13 +8,8 @@
 
 OpenAI ChatGPT 的SDK。觉得不错请右上角Star
  
- 
-#### 项目合作洽谈请点击 联系微信 https://work.weixin.qq.com/kfid/kfc6913bb4906e0e597
-
-### QQ群：645132635
 
 
-### GPT API 帐号：[购买](https://fk.fq.mk?code=YT0xJmI9Mjc%3D)
 
 # 中文语料库
 
@@ -33,8 +28,6 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 |:-----------:| :------: |
 |   GPT 3.5   |   支持   |
 |   GPT 4.0   |   支持   |
-| GPT 3.5-16k |   支持   |
-| GPT 4.0-32k |   支持   |
 |    函数调用     |   支持   |
 |    流式对话     |   支持   |
 |    阻塞式对话    |   支持   |
@@ -355,7 +348,10 @@ https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 - [**阿里云服务器**](https://reurl.cc/NqQXyx)
 - [**【腾讯云】云服务器等爆品抢先购，低至4.2元/月**](https://url.cn/B7m0OYnG)
 
+ 
+#### 项目合作洽谈请点击 联系微信 https://work.weixin.qq.com/kfid/kfc6913bb4906e0e597
 
+### QQ群：645132635
 
 # Star History
 
