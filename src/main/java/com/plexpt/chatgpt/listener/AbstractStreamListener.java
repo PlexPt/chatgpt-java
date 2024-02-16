@@ -36,7 +36,7 @@ public abstract class AbstractStreamListener extends EventSourceListener {
      */
     @Setter
     @Getter
-    protected Consumer<String> onComplate = s -> {
+    protected Consumer<String> onComplete = s -> {
 
     };
 
@@ -70,7 +70,7 @@ public abstract class AbstractStreamListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         if (data.equals("[DONE]")) {
-            onComplate.accept(lastMessage);
+            onComplete.accept(lastMessage);
             return;
         }
 
