@@ -88,13 +88,15 @@ public class ChatCompletion implements Serializable {
 
 
     @JsonProperty("presence_penalty")
-    private double presencePenalty;
+    @Builder.Default
+    private double presencePenalty = 0;
 
     /**
      * -2.0 ~~ 2.0
      */
     @JsonProperty("frequency_penalty")
-    private double frequencyPenalty;
+    @Builder.Default
+    private double frequencyPenalty = 0;
 
     @JsonProperty("logit_bias")
     private Map logitBias;
