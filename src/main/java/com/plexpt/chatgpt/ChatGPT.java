@@ -11,6 +11,7 @@ import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
 import com.plexpt.chatgpt.exception.ChatException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.Proxy;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
+import com.sun.istack.internal.NotNull;
 import io.reactivex.Single;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +35,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -78,6 +81,11 @@ public class ChatGPT {
     @Builder.Default
     private Proxy proxy = Proxy.NO_PROXY;
 
+    /**
+     * 请求失败重试次数 默认3,如果为0则不做重试操作
+     */
+    @Builder.Default
+    private int rentryTimes = 3;
 
     /**
      * 初始化
@@ -97,22 +105,7 @@ public class ChatGPT {
                     .method(original.method(), original.body())
                     .build();
             return chain.proceed(request);
-        }).addInterceptor(chain -> {
-            Request original = chain.request();
-            Response response = chain.proceed(original);
-            if (!response.isSuccessful()) {
-                String errorMsg = response.body().string();
-
-                log.error("请求异常：{}", errorMsg);
-                BaseResponse baseResponse = JSON.parseObject(errorMsg, BaseResponse.class);
-                if (Objects.nonNull(baseResponse.getError())) {
-                    log.error(baseResponse.getError().getMessage());
-                    throw new ChatException(baseResponse.getError().getMessage());
-                }
-                throw new ChatException("error");
-            }
-            return response;
-        });
+        }).addInterceptor(new ChatGPT.OkhttpInterceptor(rentryTimes));
 
         client.connectTimeout(timeout, TimeUnit.SECONDS);
         client.writeTimeout(timeout, TimeUnit.SECONDS);
@@ -217,4 +210,68 @@ public class ChatGPT {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sdf.format(date);
     }
+
+
+    /**
+     * 考虑梯子稳定性 以及 openai官方请求错误，设置请求重试
+     * 在多线程批量任务中可以使用
+     *
+     * @author zhuzi
+     */
+    public static class OkhttpInterceptor implements Interceptor {
+        // 最大重试次数
+        private int maxRentry;
+
+        public OkhttpInterceptor(int maxRentry) {
+            this.maxRentry = maxRentry;
+        }
+
+        @NotNull
+        @Override
+        public Response intercept(@NotNull Chain chain) {
+            /* 递归 2次下发请求，如果仍然失败 则返回 null ,但是 intercept must not return null.
+             * 返回 null 会报 IllegalStateException 异常
+             * */
+            return retry(chain, 0);
+        }
+
+        Response retry(Chain chain, int retryCent) {
+            Request original = chain.request();
+            Response response = null;
+
+            //次数配置重试
+            try {
+                response = chain.proceed(original);
+            } catch (Exception e) {
+                log.error("请求异常:"+e.getMessage());
+//                if (maxRentry > retryCent&&!response.isSuccessful()) {
+//                    response = retry(chain, retryCent + 1);
+//                }
+                throw new ChatException("error");
+            }
+            if (!response.isSuccessful()) {
+                if (maxRentry > retryCent) {
+                    retry(chain, retryCent + 1);
+                }else{
+                    String errorMsg = null;
+                    try {
+                        errorMsg = response.body().string();
+                    } catch (IOException e) {}
+                    log.error("请求返回异常：{}", errorMsg+",重试次数："+retryCent);
+                    BaseResponse baseResponse = JSON.parseObject(errorMsg, BaseResponse.class);
+                    if (Objects.nonNull(baseResponse.getError())) {
+                        log.error(baseResponse.getError().getMessage());
+                        throw new ChatException(baseResponse.getError().getMessage());
+                    }
+                    throw new ChatException("error");
+                }
+
+
+            }
+            return response;
+
+        }
+    }
+
+
 }
