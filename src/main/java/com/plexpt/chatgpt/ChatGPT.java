@@ -40,6 +40,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import static com.plexpt.chatgpt.util.FormatDateUtil.formatDate;
+
 
 /**
  * open ai 客户端
@@ -80,7 +82,7 @@ public class ChatGPT {
 
 
     /**
-     * 初始化
+     * 初始化：与服务端建立连接，成功后可直接与服务端进行对话
      */
     public ChatGPT init() {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
@@ -109,7 +111,7 @@ public class ChatGPT {
                     log.error(baseResponse.getError().getMessage());
                     throw new ChatException(baseResponse.getError().getMessage());
                 }
-                throw new ChatException("error");
+                throw new ChatException("ChatGPT init error!");
             }
             return response;
         });
@@ -139,8 +141,8 @@ public class ChatGPT {
     /**
      * 最新版的GPT-3.5 chat completion 更加贴近官方网站的问答模型
      *
-     * @param chatCompletion 问答参数
-     * @return 答案
+     * @param chatCompletion 问答参数，即咨询的内容
+     * @return 服务端的问答响应
      */
     public ChatCompletionResponse chatCompletion(ChatCompletion chatCompletion) {
         Single<ChatCompletionResponse> chatCompletionResponse =
@@ -149,9 +151,10 @@ public class ChatGPT {
     }
 
     /**
-     * 简易版
+     * 支持多个问答参数来与服务端进行对话
      *
-     * @param messages 问答参数
+     * @param messages  问答参数，即咨询的内容
+     * @return 服务端的问答响应
      */
     public ChatCompletionResponse chatCompletion(List<Message> messages) {
         ChatCompletion chatCompletion = ChatCompletion.builder().messages(messages).build();
@@ -159,7 +162,9 @@ public class ChatGPT {
     }
 
     /**
-     * 直接问
+     * 与服务端进行对话
+     * @param message 问答参数，即咨询的内容
+     * @return 服务端的问答响应
      */
     public String chat(String message) {
         ChatCompletion chatCompletion = ChatCompletion.builder()
@@ -172,7 +177,7 @@ public class ChatGPT {
     /**
      * 余额查询
      *
-     * @return
+     * @return 余额总金额及明细
      */
     public CreditGrantsResponse creditGrants() {
         Single<CreditGrantsResponse> creditGrants = this.apiClient.creditGrants();
@@ -183,7 +188,7 @@ public class ChatGPT {
     /**
      * 余额查询
      *
-     * @return
+     * @return 余额总金额
      */
     public BigDecimal balance() {
         Single<SubscriptionData> subscription = apiClient.subscription();
@@ -200,9 +205,9 @@ public class ChatGPT {
     }
 
     /**
-     * 余额查询
+     * 新建连接进行余额查询
      *
-     * @return
+     * @return 余额总金额
      */
     public static BigDecimal balance(String key) {
         ChatGPT chatGPT = ChatGPT.builder()
@@ -211,10 +216,5 @@ public class ChatGPT {
                 .init();
 
         return chatGPT.balance();
-    }
-
-    public static String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(date);
     }
 }
