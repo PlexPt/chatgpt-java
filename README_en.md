@@ -39,14 +39,14 @@ SDK for OpenAI ChatGPT. If you find it helpful, please give it a star in the upp
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.2.0</version>
+    <version>4.4.0</version>
 </dependency>
 ```
 
 #### gradle
 
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.2.0'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.4.0'
 ```
 
 ### Quick Start

@@ -4,18 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.plexpt.chatgpt.util.TokensUtil;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * chat
@@ -29,11 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(force = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChatCompletion implements Serializable {
+public class ChatCompletion {
 
     @NonNull
     @Builder.Default
-    private String model = Model.GPT_3_5_TURBO_0613.getName();
+    private String model = "gpt-3.5-turbo";
 
     @NonNull
     private List<Message> messages;
@@ -59,6 +52,11 @@ public class ChatCompletion implements Serializable {
      * auto
      */
     String function_call;
+
+    @JsonProperty("tool_choice")
+    String toolChoice;
+
+    List<ChatTool> tools;
 
     List<ChatFunction> functions;
 
@@ -124,13 +122,16 @@ public class ChatCompletion implements Serializable {
          */
         GPT_3_5_TURBO_0301("gpt-3.5-turbo-0301"),
         GPT_3_5_TURBO_1106("gpt-3.5-turbo-1106"),
+        GPT_3_5_TURBO_0125("gpt-3.5-turbo-0125"),
         GPT_3_5_TURBO_INSTRUCT("gpt-3.5-turbo-instruct"),
         /**
          * GPT4.0
          */
         GPT_4("gpt-4"),
         GPT4Turbo("gpt-4-1106-preview"),
+        GPT4Turbo0125("gpt-4-0125-preview"),
         GPT_4VP("gpt-4-vision-preview"),
+        GPT_4V("gpt-4-vision-preview"),
         /**
          * 临时模型，不建议使用
          */
