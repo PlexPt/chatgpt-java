@@ -72,7 +72,6 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.2.0'
 
 ### 最简使用
 
-也可以使用这个类进行测试 [ConsoleChatGPT](src/main/java/com/plexpt/chatgpt/ConsoleChatGPT.java)
 
 ```java
       //国内需要代理
@@ -91,6 +90,7 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.2.0'
         System.out.println(res);
 
 ```
+也可以使用这个类进行测试 [ConsoleChatGPT](src/main/java/com/plexpt/chatgpt/ConsoleChatGPT.java)
 
 
 ### 进阶使用

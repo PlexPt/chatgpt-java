@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class ChatFunction {
 
     String name;
+
     String description;
 
     ChatParameter parameters;
