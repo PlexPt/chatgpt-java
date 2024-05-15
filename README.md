@@ -15,7 +15,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 [中文语料库 67万+问题，欢迎拿去炼丹](https://github.com/PlexPt/chatgpt-corpus)
 
-
+[GPT API 额度购买(微信)](https://work.weixin.qq.com/kfid/kfc6913bb4906e0e597)
 
 点击👇🏻传送链接，购买云服务器炼丹：
 
