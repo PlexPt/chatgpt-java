@@ -132,6 +132,7 @@ public class ChatCompletion {
         GPT4Turbo0125("gpt-4-0125-preview"),
         GPT_4VP("gpt-4-vision-preview"),
         GPT_4V("gpt-4-vision-preview"),
+        GPT_4o("gpt-4o"),
         /**
          * 临时模型，不建议使用
          */
