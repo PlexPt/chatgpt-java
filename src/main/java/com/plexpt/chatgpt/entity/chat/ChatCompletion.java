@@ -152,6 +152,14 @@ public class ChatCompletion {
          * 临时模型，不建议使用
          */
         GPT_4_32K_0314("gpt-4-32k-0314"),
+        /**
+         * GPT4.0 Omni
+         */        
+        GPT_4_OMNI("gpt-4o"),
+        GPT_4_OMNI_0314("gpt-4o-0314"),
+        GPT_4_OMNI_0613("gpt-4o-0613"),
+        GPT_4_OMNI_32K_0314("gpt-4o-32k-0314"),
+        GPT_4_OMNI_32K_0613("gpt-4o-32k-0613"),        
         ;
         private String name;
     }
