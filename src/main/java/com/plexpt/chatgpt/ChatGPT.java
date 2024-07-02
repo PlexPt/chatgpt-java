@@ -1,6 +1,6 @@
 package com.plexpt.chatgpt;
 
-import com.alibaba.fastjson.JSON;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.BaseResponse;
 import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;

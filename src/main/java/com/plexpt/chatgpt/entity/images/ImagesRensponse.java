@@ -1,6 +1,6 @@
 package com.plexpt.chatgpt.entity.images;
 
-import com.alibaba.fastjson.JSON;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 

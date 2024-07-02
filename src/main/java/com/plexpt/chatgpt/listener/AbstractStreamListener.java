@@ -1,6 +1,6 @@
 package com.plexpt.chatgpt.listener;
 
-import com.alibaba.fastjson.JSON;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import com.plexpt.chatgpt.entity.chat.ChatChoice;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
