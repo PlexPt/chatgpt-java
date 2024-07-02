@@ -109,7 +109,7 @@ public class ConsoleChatGPT {
                 }
             };
 
-            listener.setOnComplate(msg -> {
+            listener.setOnComplete(msg -> {
                 countDownLatch.countDown();
             });
             chatGPT.streamChatCompletion(Arrays.asList(message), listener);

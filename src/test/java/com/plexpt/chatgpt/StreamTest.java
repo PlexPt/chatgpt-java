@@ -67,7 +67,7 @@ public class StreamTest {
         SseStreamListener listener = new SseStreamListener(sseEmitter);
         Message message = Message.of(prompt);
 
-        listener.setOnComplate(msg -> {
+        listener.setOnComplete(msg -> {
             //回答完成，可以做一些事情
         });
         chatGPTStream.streamChatCompletion(Arrays.asList(message), listener);
