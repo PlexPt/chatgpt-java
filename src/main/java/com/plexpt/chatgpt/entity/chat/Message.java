@@ -24,8 +24,6 @@ public class Message {
     private String content;
     private String name;
 
-    @JsonProperty("function_call")
-    private FunctionCallResult functionCall;
 
     @JsonProperty("tool_calls")
     private List<ToolCallResult> toolCalls;

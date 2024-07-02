@@ -1,15 +1,9 @@
 package com.plexpt.chatgpt.listener;
 
-import com.plexpt.chatgpt.util.fastjson.JSON;
 import com.plexpt.chatgpt.entity.chat.ChatChoice;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import cn.hutool.core.util.StrUtil;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -17,6 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * EventSource listener for chat-related events.
@@ -107,19 +105,6 @@ public abstract class AbstractStreamListener extends EventSourceListener {
             }
 
             log.error("response：{}", responseText);
-
-            String forbiddenText = "Your access was terminated due to violation of our policies";
-
-            if (StrUtil.contains(responseText, forbiddenText)) {
-                log.error("Chat session has been terminated due to policy violation");
-                log.error("检测到号被封了");
-            }
-
-            String overloadedText = "That model is currently overloaded with other requests.";
-
-            if (StrUtil.contains(responseText, overloadedText)) {
-                log.error("检测到官方超载了，赶紧优化你的代码，做重试吧");
-            }
 
             this.onError(throwable, responseText);
 

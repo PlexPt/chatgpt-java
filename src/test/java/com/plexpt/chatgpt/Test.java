@@ -1,17 +1,14 @@
 package com.plexpt.chatgpt;
 
-import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
 import com.plexpt.chatgpt.util.Proxys;
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 
 import java.net.Proxy;
 import java.util.Arrays;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -45,7 +42,7 @@ public class Test {
         Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
 
         ChatCompletion chatCompletion = ChatCompletion.builder()
-                .model(ChatCompletion.Model.GPT_3_5_TURBO.getName())
+                .model(ChatCompletion.Model.GPT_3_5_TURBO)
                 .messages(Arrays.asList(system, message))
                 .maxTokens(3000)
                 .temperature(0.9)
@@ -70,13 +67,13 @@ public class Test {
         Message message = Message.of("写一段七言绝句诗，题目是：火锅！");
 
         ChatCompletion chatCompletion1 = ChatCompletion.builder()
-                .model(ChatCompletion.Model.GPT_3_5_TURBO.getName())
+                .model(ChatCompletion.Model.GPT_3_5_TURBO)
                 .messages(Arrays.asList(system, message))
                 .maxTokens(3000)
                 .temperature(0.9)
                 .build();
         ChatCompletion chatCompletion2 = ChatCompletion.builder()
-                .model(ChatCompletion.Model.GPT_4.getName())
+                .model(ChatCompletion.Model.GPT4)
                 .messages(Arrays.asList(system, message))
                 .maxTokens(3000)
                 .temperature(0.9)

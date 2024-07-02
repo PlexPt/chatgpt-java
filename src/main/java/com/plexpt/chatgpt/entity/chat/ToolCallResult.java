@@ -8,6 +8,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ToolCallResult {
 
+    Integer index;
     String id;
 
     String type;

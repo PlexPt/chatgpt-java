@@ -2,25 +2,19 @@ package com.plexpt.chatgpt.entity.chat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseFormat {
+public class StreamOption {
 
-    public String type = Type.TEXT.getValue();
+    public Boolean include_usage;
 
-    @Getter
-    @AllArgsConstructor
-    public enum Type {
-        JSON_OBJECT("json_object"),
-        TEXT("text");
-        private final String value;
-    }
 }

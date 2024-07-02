@@ -14,6 +14,7 @@ import java.util.Map;
  * chat
  *
  * @author plexpt
+ * @link https://platform.openai.com/docs/overview
  */
 @Data
 @Builder
@@ -35,8 +36,7 @@ public class ChatCompletion {
      * <p>
      * 不要同时改这个和topP
      */
-    @Builder.Default
-    private double temperature = 0.9;
+    private Double temperature;
 
     /**
      * 0-1
@@ -44,27 +44,19 @@ public class ChatCompletion {
      * 不要同时改这个和temperature
      */
     @JsonProperty("top_p")
-    @Builder.Default
-    private double topP = 0.9;
+    private Double topP;
 
-
-    /**
-     * auto
-     */
-    String function_call;
 
     @JsonProperty("tool_choice")
     String toolChoice;
 
     List<ChatTool> tools;
 
-    List<ChatFunction> functions;
-
     /**
      * 结果数。
      */
     @Builder.Default
-    private Integer n = 1;
+    Integer n = 1;
 
 
     /**
@@ -72,89 +64,124 @@ public class ChatCompletion {
      * default:false
      */
     @Builder.Default
-    private boolean stream = false;
+    Boolean stream = false;
     /**
      * 停用词
+     * <p>
+     * stop 参数用于指定 API 生成令牌时应停止的序列。该参数可以是字符串、字符串数组或 null，最多可以包含 4 个序列。这是一个可选参数，默认值为 null。
+     * <p>
+     * 参数说明
+     * 类型：string、array 或 null
+     * 可选：是
+     * 默认值：null
+     * 用途：指定在生成的文本中，API 遇到这些序列时停止生成后续令牌
+     * 使用场景
+     * 单个停止序列：
+     * <p>
+     * 如果指定一个字符串，API 在生成文本时遇到该字符串就会停止。例如，如果设置 stop 参数为 "END", 当生成的文本包含 "END" 时，API 将停止生成后续文本。
+     * 多个停止序列：
+     * <p>
+     * 如果指定一个字符串数组，API 在生成文本时遇到任何一个字符串都会停止。例如，如果设置 stop 参数为 ["END", "STOP"], 当生成的文本包含 "END" 或 "STOP" 时，API 将停止生成后续文本。
+     * 不使用停止序列：
+     * <p>
+     * 如果将 stop 参数设置为 null 或不设置，API 将根据其默认行为生成文本，直到达到最大令牌限制或结束标记。
      */
-    private List<String> stop;
+    List<String> stop;
     /**
      * 3.5 最大支持4096
      * 4.0 最大32k
      */
     @JsonProperty("max_tokens")
-    private Integer maxTokens;
+    Integer maxTokens;
 
-
-    @JsonProperty("presence_penalty")
-    private double presencePenalty;
 
     /**
-     * -2.0 ~~ 2.0
+     * Optional
+     * Defaults to 0
+     * Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far,
+     * increasing the model's likelihood to talk about new topics.
+     */
+    @JsonProperty("presence_penalty")
+    Double presencePenalty;
+
+    /**
+     * -2.0 ~~ 2.0 Defaults to 0
      */
     @JsonProperty("frequency_penalty")
-    private double frequencyPenalty;
+    Double frequencyPenalty;
 
+    /**
+     * Optional
+     * Defaults to null
+     */
     @JsonProperty("logit_bias")
-    private Map logitBias;
+    Map logitBias;
     /**
      * 用户唯一值，确保接口不被重复调用
      */
-    private String user;
+    String user;
 
     /**
      * 返回格式  当前只有gpt-3.5-turbo-1106和gpt-4-1106-preview 支持json_object格式返回
      */
     @JsonProperty("response_format")
-    private ResponseFormat responseFormat;
+    ResponseFormat responseFormat;
 
+    /**
+     * boolean or null
+     * <p>
+     * Optional
+     * Defaults to false
+     */
+    Boolean logprobs;
 
-    @Getter
-    @AllArgsConstructor
-    public enum Model {
+    /**
+     * integer or null
+     * <p>
+     * Optional
+     */
+    @JsonProperty("top_logprobs")
+    Integer topLogprobs;
+
+    Integer seed;
+
+    /**
+     * Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
+     * <p>
+     * If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+     * If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
+     * When this parameter is set, the response body will include the service_tier utilized.
+     */
+    @JsonProperty("service_tier")
+    String serviceTier;
+
+    @JsonProperty("stream_options")
+    StreamOption streamOptions;
+
+    @JsonProperty("parallel_tool_calls")
+    Boolean parallelToolCalls;
+
+    /**
+     * model
+     */
+    public interface Model {
         /**
          * gpt-3.5-turbo
          */
-        GPT_3_5_TURBO("gpt-3.5-turbo"),
-        GPT_3_5_TURBO_0613("gpt-3.5-turbo-0613"),
-        GPT_3_5_TURBO_16K("gpt-3.5-turbo-16k"),
-        /**
-         * 临时模型，不建议使用
-         */
-        GPT_3_5_TURBO_0301("gpt-3.5-turbo-0301"),
-        GPT_3_5_TURBO_1106("gpt-3.5-turbo-1106"),
-        GPT_3_5_TURBO_0125("gpt-3.5-turbo-0125"),
-        GPT_3_5_TURBO_INSTRUCT("gpt-3.5-turbo-instruct"),
+        String GPT_3_5_TURBO = "gpt-3.5-turbo";
+        String GPT_3_5_TURBO_16K = "gpt-3.5-turbo-16k";
+        String GPT_3_5_TURBO_INSTRUCT = "gpt-3.5-turbo-instruct";
         /**
          * GPT4.0
          */
-        GPT_4("gpt-4"),
-        GPT4Turbo("gpt-4-1106-preview"),
-        GPT4Turbo0125("gpt-4-0125-preview"),
-        GPT_4VP("gpt-4-vision-preview"),
-        GPT_4V("gpt-4-vision-preview"),
-        GPT_4o("gpt-4o"),
-        /**
-         * 临时模型，不建议使用
-         */
-        GPT_4_0314("gpt-4-0314"),
-        /**
-         * 支持函数
-         */
-        GPT_4_0613("gpt-4-0613"),
+        String GPT4 = "gpt-4";
+        String GPT4V = "gpt-4-vision-preview";
+        String GPT4o = "gpt-4o";
         /**
          * GPT4.0 超长上下文
          */
-        GPT_4_32K("gpt-4-32k"),
-        /**
-         * GPT4.0 超长上下文
-         */
-        GPT_4_32K_0613("gpt-4-32k-0613"),
-        /**
-         * 临时模型，不建议使用
-         */
-        GPT_4_32K_0314("gpt-4-32k-0314"),
-        ;
-        private String name;
+        String GPT_4_32K = "gpt-4-32k";
+
     }
 
     public int countTokens() {

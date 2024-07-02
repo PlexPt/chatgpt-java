@@ -14,12 +14,12 @@ public class ConsoleStreamListener extends AbstractStreamListener {
 
     @Override
     public void onMsg(String message) {
-        System.out.print(message);
+        log.info(message);
     }
 
     @Override
     public void onError(Throwable throwable, String response) {
-
+        log.error("ConsoleStreamListener error: {}", throwable);
     }
 
 }

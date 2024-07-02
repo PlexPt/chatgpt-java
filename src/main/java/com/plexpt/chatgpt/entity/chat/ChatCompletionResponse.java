@@ -17,11 +17,12 @@ import java.util.List;
 public class ChatCompletionResponse {
     private String id;
     private String object;
-    private long created;
+    private Long created;
     private String model;
     @JsonProperty("system_fingerprint")
     private String systemFingerprint;
     private List<ChatChoice> choices;
     private Usage usage;
+    Object logprobs;
 
 }

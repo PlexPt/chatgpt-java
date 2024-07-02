@@ -1,15 +1,9 @@
 package com.plexpt.chatgpt;
 
+import com.plexpt.chatgpt.entity.chat.*;
+import com.plexpt.chatgpt.util.Proxys;
 import com.plexpt.chatgpt.util.fastjson.JSON;
 import com.plexpt.chatgpt.util.fastjson.JSONObject;
-import com.plexpt.chatgpt.entity.chat.ChatChoice;
-import com.plexpt.chatgpt.entity.chat.ChatCompletion;
-import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
-import com.plexpt.chatgpt.entity.chat.ChatFunction;
-import com.plexpt.chatgpt.entity.chat.FunctionCallResult;
-import com.plexpt.chatgpt.entity.chat.Message;
-import com.plexpt.chatgpt.util.Proxys;
-
 import org.junit.Before;
 
 import java.net.Proxy;
@@ -37,11 +31,15 @@ public class FunctionCallTest {
 
     @org.junit.Test
     public void chat() {
-        List<ChatFunction> functions = new ArrayList<>();
-        ChatFunction function = new ChatFunction();
-        function.setName("getCurrentWeather");
-        function.setDescription("获取给定位置的当前天气");
-        function.setParameters(ChatFunction.ChatParameter.builder()
+        List<ChatTool> functions = new ArrayList<>();
+        ChatTool function = new ChatTool();
+        function.setType("function");
+        ChatToolFunction toolFunction = new ChatToolFunction();
+        function.setFunction(toolFunction);
+
+        toolFunction.setName("getCurrentWeather");
+        toolFunction.setDescription("获取给定位置的当前天气");
+        toolFunction.setParameters(ChatToolFunction.ChatParameter.builder()
                 .type("object")
                 .required(Arrays.asList("location"))
                 .properties(JSON.parseObject("{\n" +
@@ -60,9 +58,9 @@ public class FunctionCallTest {
 
         Message message = Message.of("上海的天气怎么样？");
         ChatCompletion chatCompletion = ChatCompletion.builder()
-                .model(ChatCompletion.Model.GPT_3_5_TURBO_0613.getName())
+                .model(ChatCompletion.Model.GPT_3_5_TURBO)
                 .messages(Arrays.asList(message))
-                .functions(functions)
+                .tools(functions)
                 .maxTokens(8000)
                 .temperature(0.9)
                 .build();
@@ -72,33 +70,37 @@ public class FunctionCallTest {
         System.out.println(res);
         if ("function_call".equals(choice.getFinishReason())) {
 
-            FunctionCallResult functionCall = res.getFunctionCall();
-            String functionCallName = functionCall.getName();
+            List<ToolCallResult> calls = res.getToolCalls();
+            for (ToolCallResult call : calls) {
 
-            if ("getCurrentWeather".equals(functionCallName)) {
-                String arguments = functionCall.getArguments();
-                JSONObject jsonObject = JSON.parseObject(arguments);
-                String location = jsonObject.getString("location");
-                String unit = jsonObject.getString("unit");
-                String weather = getCurrentWeather(location, unit);
+                String functionCallName = call.getFunction().getName();
 
-                callWithWeather(weather, res, functions);
+                if ("getCurrentWeather".equals(functionCallName)) {
+                    String arguments = call.getFunction().getArguments();
+                    JSONObject jsonObject = JSON.parseObject(arguments);
+                    String location = jsonObject.getString("location");
+                    String unit = jsonObject.getString("unit");
+                    String weather = getCurrentWeather(location, unit);
+
+                    callWithWeather(weather, res, functions);
+                }
             }
+
         }
 
 
     }
 
-    private void callWithWeather(String weather, Message res, List<ChatFunction> functions) {
+    private void callWithWeather(String weather, Message res, List<ChatTool> functions) {
 
 
         Message message = Message.of("上海的天气怎么样？");
         Message function1 = Message.ofFunction(weather);
         function1.setName("getCurrentWeather");
         ChatCompletion chatCompletion = ChatCompletion.builder()
-                .model(ChatCompletion.Model.GPT_3_5_TURBO_0613.getName())
+                .model(ChatCompletion.Model.GPT_3_5_TURBO)
                 .messages(Arrays.asList(message, res, function1))
-                .functions(functions)
+                .tools(functions)
                 .maxTokens(8000)
                 .temperature(0.9)
                 .build();
