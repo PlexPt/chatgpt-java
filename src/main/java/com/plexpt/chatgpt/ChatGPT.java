@@ -1,44 +1,41 @@
 package com.plexpt.chatgpt;
 
-import com.plexpt.chatgpt.util.fastjson.JSON;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.Header;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.BaseResponse;
+import com.plexpt.chatgpt.entity.audio.AudioResponse;
+import com.plexpt.chatgpt.entity.audio.Transcriptions;
 import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;
 import com.plexpt.chatgpt.entity.billing.SubscriptionData;
 import com.plexpt.chatgpt.entity.billing.UseageResponse;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
+import com.plexpt.chatgpt.entity.embedding.EmbeddingRequest;
+import com.plexpt.chatgpt.entity.embedding.EmbeddingResult;
+import com.plexpt.chatgpt.entity.images.Edits;
+import com.plexpt.chatgpt.entity.images.Generations;
+import com.plexpt.chatgpt.entity.images.ImagesRensponse;
+import com.plexpt.chatgpt.entity.images.Variations;
 import com.plexpt.chatgpt.exception.ChatException;
-
-import java.math.BigDecimal;
-import java.net.Proxy;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.http.ContentType;
-import cn.hutool.http.Header;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import io.reactivex.Single;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.net.Proxy;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.plexpt.chatgpt.util.FormatDateUtil.formatDate;
 
@@ -122,9 +119,7 @@ public class ChatGPT {
         if (Objects.nonNull(proxy)) {
             client.proxy(proxy);
         }
-        OkHttpClient httpClient = client.build();
-        this.okHttpClient = httpClient;
-
+        this.okHttpClient = client.build();
 
         this.apiClient = new Retrofit.Builder()
                 .baseUrl(this.apiHost)
@@ -153,7 +148,7 @@ public class ChatGPT {
     /**
      * 支持多个问答参数来与服务端进行对话
      *
-     * @param messages  问答参数，即咨询的内容
+     * @param messages 问答参数，即咨询的内容
      * @return 服务端的问答响应
      */
     public ChatCompletionResponse chatCompletion(List<Message> messages) {
@@ -163,6 +158,7 @@ public class ChatGPT {
 
     /**
      * 与服务端进行对话
+     *
      * @param message 问答参数，即咨询的内容
      * @return 服务端的问答响应
      */
@@ -174,22 +170,79 @@ public class ChatGPT {
         return response.getChoices().get(0).getMessage().getContent();
     }
 
+
     /**
-     * 余额查询
-     *
-     * @return 余额总金额及明细
+     * 生成向量
      */
-    public CreditGrantsResponse creditGrants() {
-        Single<CreditGrantsResponse> creditGrants = this.apiClient.creditGrants();
-        return creditGrants.blockingGet();
+    public EmbeddingResult createEmbeddings(EmbeddingRequest request) {
+        Single<EmbeddingResult> embeddingResultSingle = this.apiClient.createEmbeddings(request);
+        return embeddingResultSingle.blockingGet();
     }
 
+
+    /**
+     * 生成向量
+     */
+    public EmbeddingResult createEmbeddings(String input, String user) {
+        EmbeddingRequest request = EmbeddingRequest.builder()
+                .input(Collections.singletonList(input))
+                .model(EmbeddingRequest.EmbeddingModelEnum.TEXT_EMBEDDING_ADA_002.getModelName())
+                .user(user)
+                .build();
+        Single<EmbeddingResult> embeddingResultSingle = this.apiClient.createEmbeddings(request);
+        return embeddingResultSingle.blockingGet();
+    }
+
+
+    public ImagesRensponse imageGeneration(Generations generations) {
+        Single<ImagesRensponse> imagesRensponse =
+                this.apiClient.imageGenerations(generations);
+        return imagesRensponse.blockingGet();
+    }
+
+    public ImagesRensponse imageEdit(File image, File mask, Edits edits) {
+        RequestBody i = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), image);
+        MultipartBody.Part iPart = MultipartBody.Part.createFormData("image", image.getName(), i);
+
+        RequestBody m = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), mask);
+        MultipartBody.Part mPart = MultipartBody.Part.createFormData("mask", mask.getName(), m);
+
+        Single<ImagesRensponse> imagesRensponse =
+                this.apiClient.imageEdits(iPart, mPart, edits);
+        return imagesRensponse.blockingGet();
+    }
+
+    public ImagesRensponse imageVariation(File image, Variations variations) {
+        RequestBody i = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), image);
+        MultipartBody.Part iPart = MultipartBody.Part.createFormData("image", image.getName(), i);
+        Single<ImagesRensponse> imagesRensponse =
+                this.apiClient.imageVariations(iPart, variations);
+        return imagesRensponse.blockingGet();
+    }
+
+
+    public AudioResponse audioTranscription(File audio, Transcriptions transcriptions) {
+        RequestBody a = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), audio);
+        MultipartBody.Part aPart = MultipartBody.Part.createFormData("image", audio.getName(), a);
+        Single<AudioResponse> audioResponse =
+                this.apiClient.audioTranscriptions(aPart, transcriptions);
+        return audioResponse.blockingGet();
+    }
+
+    public AudioResponse audioTranslation(File audio, Transcriptions transcriptions) {
+        RequestBody a = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), audio);
+        MultipartBody.Part aPart = MultipartBody.Part.createFormData("image", audio.getName(), a);
+        Single<AudioResponse> audioResponse =
+                this.apiClient.audioTranslations(aPart, transcriptions);
+        return audioResponse.blockingGet();
+    }
 
     /**
      * 余额查询
      *
      * @return 余额总金额
      */
+    @Deprecated
     public BigDecimal balance() {
         Single<SubscriptionData> subscription = apiClient.subscription();
         SubscriptionData subscriptionData = subscription.blockingGet();
@@ -209,6 +262,7 @@ public class ChatGPT {
      *
      * @return 余额总金额
      */
+    @Deprecated
     public static BigDecimal balance(String key) {
         ChatGPT chatGPT = ChatGPT.builder()
                 .apiKey(key)
@@ -216,5 +270,16 @@ public class ChatGPT {
                 .init();
 
         return chatGPT.balance();
+    }
+
+    /**
+     * 余额查询
+     *
+     * @return 余额总金额及明细
+     */
+    @Deprecated
+    public CreditGrantsResponse creditGrants() {
+        Single<CreditGrantsResponse> creditGrants = this.apiClient.creditGrants();
+        return creditGrants.blockingGet();
     }
 }

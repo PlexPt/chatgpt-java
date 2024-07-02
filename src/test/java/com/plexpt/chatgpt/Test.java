@@ -1,14 +1,22 @@
 package com.plexpt.chatgpt;
 
+import com.plexpt.chatgpt.entity.audio.AudioResponse;
+import com.plexpt.chatgpt.entity.audio.Transcriptions;
+import com.plexpt.chatgpt.entity.audio.enums.AudioModel;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
 import com.plexpt.chatgpt.entity.chat.Message;
+import com.plexpt.chatgpt.entity.images.Generations;
+import com.plexpt.chatgpt.entity.images.ImagesRensponse;
+import com.plexpt.chatgpt.entity.images.Variations;
 import com.plexpt.chatgpt.util.Proxys;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 
+import java.io.File;
 import java.net.Proxy;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Slf4j
@@ -50,6 +58,31 @@ public class Test {
         ChatCompletionResponse response = chatGPT.chatCompletion(chatCompletion);
         Message res = response.getChoices().get(0).getMessage();
         System.out.println(res);
+    }
+
+    @org.junit.Test
+    public void img() {
+
+        File file = new File("微信图片_20230606140621.png");
+        Variations variations = Variations.ofURL(1, "256x256");
+        Generations generations = Generations.ofURL("一只鲨鱼和一直蜜蜂结合成一种动物", 1, "256x256");
+        ImagesRensponse imagesRensponse = chatGPT.imageVariation(file, variations);
+        System.out.println(imagesRensponse.getCreated());
+        System.out.println(imagesRensponse.getCode());
+        System.out.println(imagesRensponse.getMsg());
+        List<Object> data = imagesRensponse.getData();
+        for (Object o : data) {
+            System.out.println(o.toString());
+        }
+
+    }
+
+    @org.junit.Test
+    public void audio() {
+        File file = new File("D:\\Jenny.mp3");
+        Transcriptions transcriptions = Transcriptions.of("whisper", AudioModel.WHISPER1.getValue());
+        AudioResponse response = chatGPT.audioTranscription(file, transcriptions);
+        System.out.println(response.getText());
     }
 
     @org.junit.Test
