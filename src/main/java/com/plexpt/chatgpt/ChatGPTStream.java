@@ -1,22 +1,15 @@
 package com.plexpt.chatgpt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.ContentType;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.Message;
-
-import java.net.Proxy;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.http.ContentType;
+import com.plexpt.chatgpt.util.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,6 +18,11 @@ import okhttp3.RequestBody;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 import okhttp3.sse.EventSources;
+
+import java.net.Proxy;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -89,8 +87,8 @@ public class ChatGPTStream {
 
         try {
             EventSource.Factory factory = EventSources.createFactory(okHttpClient);
-            ObjectMapper mapper = new ObjectMapper();
-            String requestBody = mapper.writeValueAsString(chatCompletion);
+
+            String requestBody = JSON.toJSONString(chatCompletion);
             String key = apiKey;
             if (apiKeyList != null && !apiKeyList.isEmpty()) {
                 key = RandomUtil.randomEle(apiKeyList);
@@ -99,8 +97,7 @@ public class ChatGPTStream {
 
             Request request = new Request.Builder()
                     .url(apiHost + "v1/chat/completions")
-                    .post(RequestBody.create(MediaType.parse(ContentType.JSON.getValue()),
-                            requestBody))
+                    .post(RequestBody.create(MediaType.parse(ContentType.JSON.getValue()), requestBody))
                     .header("Authorization", "Bearer " + key)
                     .build();
             factory.newEventSource(request, eventSourceListener);
