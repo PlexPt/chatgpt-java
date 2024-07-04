@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.plexpt.chatgpt.entity.billing.Usage;
 import lombok.Data;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * chat答案类
@@ -24,5 +26,32 @@ public class ChatCompletionResponse {
     private List<ChatChoice> choices;
     private Usage usage;
     Object logprobs;
+
+
+    public String toPlainString() {
+        if (CollectionUtils.isEmpty(this.getChoices())) {
+            return "";
+        }
+
+
+        return Optional.ofNullable(this.getChoices())
+                .map(e -> e.get(0))
+                .map(ChatChoice::getMessage)
+                .map(Message::getContent)
+                .orElse("");
+    }
+
+    public String toPlainStringStream() {
+        if (CollectionUtils.isEmpty(this.getChoices())) {
+            return "";
+        }
+
+
+        return Optional.ofNullable(this.getChoices())
+                .map(e -> e.get(0))
+                .map(ChatChoice::getDelta)
+                .map(Message::getContent)
+                .orElse("");
+    }
 
 }

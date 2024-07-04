@@ -117,8 +117,7 @@ implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.4.0'
                 .temperature(0.9)
                 .build();
         ChatCompletionResponse response = chatGPT.chatCompletion(chatCompletion);
-        Message res = response.getChoices().get(0).getMessage();
-        System.out.println(res);
+        System.out.println(response.toPlainString());
 
 ```
 ### 函数调用（Function Call）

@@ -1,8 +1,6 @@
 package com.plexpt.chatgpt.listener;
 
-import com.plexpt.chatgpt.entity.chat.ChatChoice;
 import com.plexpt.chatgpt.entity.chat.ChatCompletionResponse;
-import com.plexpt.chatgpt.entity.chat.Message;
 import com.plexpt.chatgpt.util.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
+import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -73,15 +71,11 @@ public abstract class AbstractStreamListener extends EventSourceListener {
         }
 
         ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
-        // 读取Json
-        List<ChatChoice> choices = response.getChoices();
-        if (choices == null || choices.isEmpty()) {
-            return;
-        }
-        Message delta = choices.get(0).getDelta();
-        String text = delta.getContent();
 
-        if (text != null) {
+        String text = response.toPlainStringStream();
+
+        if (!StringUtils.isEmpty(text)) {
+
             lastMessage += text;
 
             onMsg(text);
