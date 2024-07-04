@@ -80,7 +80,7 @@ public class Test {
     @org.junit.Test
     public void audio() {
         File file = new File("D:\\Jenny.mp3");
-        Transcriptions transcriptions = Transcriptions.of("whisper", AudioModel.WHISPER1.getValue());
+        Transcriptions transcriptions = Transcriptions.of("whisper-1", AudioModel.WHISPER1.getValue());
         AudioResponse response = chatGPT.audioTranscription(file, transcriptions);
         System.out.println(response.getText());
     }
