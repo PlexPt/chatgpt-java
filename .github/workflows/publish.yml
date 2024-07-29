@@ -1,6 +1,8 @@
 name: Maven Central Repo Deployment
 # 触发脚本的事件  这里为发布release之后触发
 on:
+  # 手动触发事件
+  workflow_dispatch:
   release:
     types: [released]
 # 定义一个发行任务
