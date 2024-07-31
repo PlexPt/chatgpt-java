@@ -169,18 +169,12 @@ public class ChatCompletion {
          * gpt-3.5-turbo
          */
         String GPT_3_5_TURBO = "gpt-3.5-turbo";
-        String GPT_3_5_TURBO_16K = "gpt-3.5-turbo-16k";
-        String GPT_3_5_TURBO_INSTRUCT = "gpt-3.5-turbo-instruct";
         /**
          * GPT4.0
          */
         String GPT4 = "gpt-4";
-        String GPT4V = "gpt-4-vision-preview";
         String GPT4o = "gpt-4o";
-        /**
-         * GPT4.0 超长上下文
-         */
-        String GPT_4_32K = "gpt-4-32k";
+        String GPT4oMini = "gpt-4o-mini";
 
     }
 
