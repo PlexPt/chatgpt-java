@@ -7,7 +7,10 @@ import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.BaseResponse;
+import com.plexpt.chatgpt.entity.DeleteResponse;
+import com.plexpt.chatgpt.entity.FileResponse;
 import com.plexpt.chatgpt.entity.audio.AudioResponse;
+import com.plexpt.chatgpt.entity.audio.SpeechRequest;
 import com.plexpt.chatgpt.entity.audio.Transcriptions;
 import com.plexpt.chatgpt.entity.billing.CreditGrantsResponse;
 import com.plexpt.chatgpt.entity.billing.SubscriptionData;
@@ -32,6 +35,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.Proxy;
 import java.util.*;
@@ -195,8 +199,7 @@ public class ChatGPT {
 
 
     public ImagesRensponse imageGeneration(Generations generations) {
-        Single<ImagesRensponse> imagesRensponse =
-                this.apiClient.imageGenerations(generations);
+        Single<ImagesRensponse> imagesRensponse = this.apiClient.imageGenerations(generations);
         return imagesRensponse.blockingGet();
     }
 
@@ -227,6 +230,13 @@ public class ChatGPT {
         Single<AudioResponse> audioResponse =
                 this.apiClient.audioTranscriptions(aPart, transcriptions);
         return audioResponse.blockingGet();
+    }
+
+    public InputStream audioSpeech(SpeechRequest speechRequest) {
+        Single<ResponseBody> audioResponse = this.apiClient.audioSpeech(speechRequest);
+        ResponseBody response = audioResponse.blockingGet();
+        InputStream stream = response.byteStream();
+        return stream;
     }
 
     public AudioResponse audioTranslation(File audio, Transcriptions transcriptions) {
@@ -282,4 +292,70 @@ public class ChatGPT {
         Single<CreditGrantsResponse> creditGrants = this.apiClient.creditGrants();
         return creditGrants.blockingGet();
     }
+
+    /**
+     * 列出文件
+     * List files
+     */
+    public BaseResponse<FileResponse> listFiles() {
+        Single<BaseResponse<FileResponse>> files = this.apiClient.listFiles();
+        return files.blockingGet();
+    }
+
+    /**
+     * 上传文件
+     * Upload file
+     *
+     * @param purpose 文件用途
+     *                The purpose of the file
+     * @param file    文件部分
+     *                The file part
+     * @return 文件响应
+     *         File response
+     */
+    public FileResponse uploadFile(String purpose, MultipartBody.Part file) {
+        RequestBody purposeBody = RequestBody.create(MultipartBody.FORM, purpose);
+        Single<FileResponse> files = this.apiClient.uploadFile(purposeBody, file);
+        return files.blockingGet();
+    }
+
+    /**
+     * 删除文件
+     * Delete file
+     *
+     * @param fileId 文件ID
+     *               The file ID
+     * @return 删除响应
+     *         Delete response
+     */
+    public DeleteResponse deleteFile(String fileId) {
+        return this.apiClient.deleteFile(fileId).blockingGet();
+    }
+
+    /**
+     * 检索文件
+     * Retrieve file
+     *
+     * @param fileId 文件ID
+     *               The file ID
+     * @return 文件响应
+     *         File response
+     */
+    public FileResponse retrieveFile(String fileId) {
+        return this.apiClient.retrieveFile(fileId).blockingGet();
+    }
+
+    /**
+     * 检索文件内容
+     * Retrieve file content
+     *
+     * @param fileId 文件ID
+     *               The file ID
+     * @return 文件内容响应
+     *         File content response
+     */
+    public ResponseBody retrieveFileContent(String fileId) {
+        return this.apiClient.retrieveFileContent(fileId).blockingGet();
+    }
+
 }
