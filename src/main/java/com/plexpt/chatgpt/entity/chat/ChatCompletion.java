@@ -178,6 +178,11 @@ public class ChatCompletion {
 
     }
 
+    /**
+     * 计算token
+     *
+     * @return
+     */
     public int countTokens() {
         return TokensUtil.tokens(this.model, this.messages);
     }

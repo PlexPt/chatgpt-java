@@ -18,6 +18,7 @@ public class TokensUtil {
 
     public static EncodingRegistry registry = Encodings.newDefaultEncodingRegistry();
     public static Encoding encoding = registry.getEncoding(EncodingType.CL100K_BASE);
+    public static Encoding encoding4o = registry.getEncoding(EncodingType.O200K_BASE);
 
 
     /**
@@ -27,7 +28,21 @@ public class TokensUtil {
      * @return
      */
     public static int countTextTokens(String text) {
-        return encoding.countTokens(text);
+        return encoding4o.countTokens(text);
+    }
+
+    /**
+     * 计算text信息的tokens
+     *
+     * @param text
+     * @return
+     */
+    public static int countTextTokens(String text, String model) {
+        if (StringUtils.startsWithIgnoreCase(model, ModelType.GPT_3_5_TURBO.getName())) {
+            return encoding.countTokens(text);
+        }
+
+        return encoding4o.countTokens(text);
     }
 
 
@@ -37,7 +52,7 @@ public class TokensUtil {
      * @param name
      * @return
      */
-    private static ModelType getModelTypeByName(String name) {
+    public static ModelType getModelTypeByName(String name) {
         Optional<ModelType> optional = ModelType.fromName(name);
 
         return optional.orElse(ModelType.GPT_3_5_TURBO);
@@ -55,7 +70,7 @@ public class TokensUtil {
         if (CollectionUtils.isEmpty(messages)) {
             return 0;
         }
-
+        Encoding encodingUsed = encoding;
         //"gpt-3.5-turbo"
         // every message follows <|start|>{role/name}\n{content}<|end|>\n
         int tokensPerMessage = 4;
@@ -66,14 +81,17 @@ public class TokensUtil {
             tokensPerMessage = 3;
             tokensPerName = 1;
         }
+        if (StringUtils.startsWithIgnoreCase(model, ModelType.GPT_4O.getName())) {
+            encodingUsed = encoding4o;
+        }
 
         int sum = 0;
         for (final Message message : messages) {
             sum += tokensPerMessage;
-            sum += encoding.countTokens(message.getContent());
-            sum += encoding.countTokens(message.getRole());
+            sum += encodingUsed.countTokens(message.getContent());
+            sum += encodingUsed.countTokens(message.getRole());
             if (!StringUtils.isEmpty(message.getName())) {
-                sum += encoding.countTokens(message.getName());
+                sum += encodingUsed.countTokens(message.getName());
                 sum += tokensPerName;
             }
         }
