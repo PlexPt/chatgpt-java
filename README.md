@@ -55,13 +55,13 @@ maven
 <dependency>
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>4.4.0</version>
+    <version>5.1.0</version>
 </dependency>
 ```
 
 gradle
 ```
-implementation group: 'com.github.plexpt', name: 'chatgpt', version: '4.4.0'
+implementation group: 'com.github.plexpt', name: 'chatgpt', version: '5.1.0'
 ```
 
 
