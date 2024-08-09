@@ -49,7 +49,7 @@
         <compile.version>8</compile.version>
 
         <retrofit2.version>2.9.0</retrofit2.version>
-        <slf4j.version>2.0.13</slf4j.version>
+        <slf4j.version>2.0.15</slf4j.version>
         <logback.version>1.3.7</logback.version>
     </properties>
 
