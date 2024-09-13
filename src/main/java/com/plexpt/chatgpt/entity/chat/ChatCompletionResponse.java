@@ -25,6 +25,8 @@ public class ChatCompletionResponse {
     private String systemFingerprint;
     private List<ChatChoice> choices;
     private Usage usage;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
     Object logprobs;
 
 
