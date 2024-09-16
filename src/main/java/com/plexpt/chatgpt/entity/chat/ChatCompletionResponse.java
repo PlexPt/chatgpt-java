@@ -39,7 +39,7 @@ public class ChatCompletionResponse {
         return Optional.ofNullable(this.getChoices())
                 .map(e -> e.get(0))
                 .map(ChatChoice::getMessage)
-                .map(Message::getContent)
+                .map(MessageResponse::getContent)
                 .orElse("");
     }
 
@@ -52,7 +52,7 @@ public class ChatCompletionResponse {
         return Optional.ofNullable(this.getChoices())
                 .map(e -> e.get(0))
                 .map(ChatChoice::getDelta)
-                .map(Message::getContent)
+                .map(MessageResponse::getContent)
                 .orElse("");
     }
 

@@ -5,7 +5,7 @@
 
     <groupId>com.github.plexpt</groupId>
     <artifactId>chatgpt</artifactId>
-    <version>5.1.1</version>
+    <version>6.0.0</version>
     <name>chatgpt</name>
     <description>Openai ChatGPT Java SDK.</description>
     <url>https://chat.plexpt.com</url>
