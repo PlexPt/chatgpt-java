@@ -28,7 +28,7 @@ OpenAI ChatGPT 的SDK。觉得不错请右上角Star
 
 ## 使用指南
 
-你可能在找这个，参考Demo https://github.com/PlexPt/chatgpt-online-springboot
+参考Demo https://github.com/PlexPt/chatgpt-online-springboot
 
 最新版本 [![Maven Central](https://img.shields.io/maven-central/v/com.github.plexpt/chatgpt)](https://maven-badges.herokuapp.com/maven-central/com.github.plexpt/chatgpt)
 
