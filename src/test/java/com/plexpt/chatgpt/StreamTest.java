@@ -6,6 +6,7 @@ import com.plexpt.chatgpt.listener.ConsoleStreamListener;
 import com.plexpt.chatgpt.listener.SseStreamListener;
 import com.plexpt.chatgpt.util.Proxys;
 
+import okhttp3.Dispatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.net.Proxy;
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
 
 /**
  * 测试类
@@ -33,6 +35,10 @@ public class StreamTest {
                 .apiKey("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")
                 .proxy(proxy)
                 .timeout(600)
+                .okHttpCustomizer(builder -> {
+                    // 自定义一个dispatcher
+                    return builder.dispatcher(new Dispatcher(Executors.newSingleThreadExecutor()));
+                })
                 .apiHost("https://api.openai.com/")
                 .build()
                 .init();

@@ -25,6 +25,7 @@ import com.plexpt.chatgpt.entity.images.Generations;
 import com.plexpt.chatgpt.entity.images.ImagesRensponse;
 import com.plexpt.chatgpt.entity.images.Variations;
 import com.plexpt.chatgpt.exception.ChatException;
+import com.plexpt.chatgpt.util.OkHttpCustomizer;
 import com.plexpt.chatgpt.util.fastjson.JSON;
 import io.reactivex.Single;
 import lombok.*;
@@ -70,6 +71,10 @@ public class ChatGPT {
     private String apiHost = Api.DEFAULT_API_HOST;
     private Api apiClient;
     private OkHttpClient okHttpClient;
+    /**
+     * 用于自定义okhttp client
+     */
+    private OkHttpCustomizer okHttpCustomizer;
     /**
      * 超时 默认300
      */
@@ -122,6 +127,9 @@ public class ChatGPT {
         client.readTimeout(timeout, TimeUnit.SECONDS);
         if (Objects.nonNull(proxy)) {
             client.proxy(proxy);
+        }
+        if (Objects.nonNull(okHttpCustomizer)) {
+            client = okHttpCustomizer.customize(client);
         }
         this.okHttpClient = client.build();
 
