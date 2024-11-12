@@ -5,6 +5,7 @@ import cn.hutool.http.ContentType;
 import com.plexpt.chatgpt.api.Api;
 import com.plexpt.chatgpt.entity.chat.ChatCompletion;
 import com.plexpt.chatgpt.entity.chat.Message;
+import com.plexpt.chatgpt.util.OkHttpCustomizer;
 import com.plexpt.chatgpt.util.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class ChatGPTStream {
 
     private OkHttpClient okHttpClient;
     /**
+     * 用于自定义okhttp client
+     */
+    private OkHttpCustomizer okHttpCustomizer;
+    /**
      * 连接超时
      */
     @Builder.Default
@@ -69,6 +74,10 @@ public class ChatGPTStream {
         client.readTimeout(timeout, TimeUnit.SECONDS);
         if (Objects.nonNull(proxy)) {
             client.proxy(proxy);
+        }
+
+        if (Objects.nonNull(okHttpCustomizer)) {
+            client = okHttpCustomizer.customize(client);
         }
 
         okHttpClient = client.build();
