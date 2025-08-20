@@ -6,7 +6,7 @@
 [English Doc](https://github.com/PlexPt/chatgpt-java/blob/main/README_en.md).
 
 
-OpenAI ChatGPT 的SDK。觉得不错请右上角Star
+OpenAI ChatGPT SDK
 
 
 # 功能特性
@@ -304,35 +304,6 @@ chatGPT = ChatGPT.builder()
 
 参考  [ChatContextHolder.java](src/main/java/com/plexpt/chatgpt/util/ChatContextHolder.java) 
 
-
-
-# 常见问题
-
-|                              问                              |                                                  答                                                   |
-| :----------------------------------------------------------: |:----------------------------------------------------------------------------------------------------:|
-|                         KEY从哪来？                          | 手动注册生成：openai.com(需要海外手机号)、或者[GPT API 额度购买(微信)](https://work.weixin.qq.com/kfid/kfc6913bb4906e0e597) |
-|                        哪些地区不能用                        |                       **以下国家IP不支持使用：中国(包含港澳台) 俄罗斯 乌克兰 阿富汗 白俄罗斯 委内瑞拉 伊朗 埃及**                        |
-|                         有封号风险吗                         |                                             使用代理有一定的风险。                                              |
-| 显示`Your access was terminated due to violation of our policies`... |                                               你号没了，下一个                                               |
-| 显示`That model is currently overloaded with other requests. You can retry your request` |                                             模型过载，官方炸了，重试                                             |
-|                          如何充值？                          |                                             用国外信用卡，国内的不行                                             |
-|                    没有国外信用卡怎么办？                    |                                             暂时没有特别好的办法待定                                             |
-|                         返回http 401                         |                                             API 密钥写错了/没写                                             |
-|                         返回http 429                         |                                         请求超速了，或者官方超载了。充钱可解决                                          |
-|                         返回http 500                         |                                                服务器炸了                                                 |
-|                                                              |                                                                                                      |
-
----
-
-
-
-
-
-### 注册教程
-
-https://juejin.cn/post/7173447848292253704
-
-https://mirror.xyz/boxchen.eth/9O9CSqyKDj4BKUIil7NC1Sa1LJM-3hsPqaeW_QjfFBc
 
 #### 另外请看看我的另一个项目 [ChatGPT中文使用指南](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)
 
