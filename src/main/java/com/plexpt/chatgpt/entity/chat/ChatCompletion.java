@@ -175,7 +175,8 @@ public class ChatCompletion {
         String GPT4 = "gpt-4";
         String GPT4o = "gpt-4o";
         String GPT4oMini = "gpt-4o-mini";
-
+        String GPT5 = "gpt-5";
+         String GPT5_MINI = "gpt-5-mini";
     }
 
     /**
